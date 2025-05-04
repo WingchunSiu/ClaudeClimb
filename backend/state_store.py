@@ -1,6 +1,7 @@
 """
 Simple state store for ClaudeClimb
 Stores all application state in a single object
+MBTI scores are on a 0–100 scale, with 50 as neutral midpoint
 """
 
 class StateStore:
@@ -15,7 +16,7 @@ class StateStore:
         return cls._instance
     
     def __init__(self):
-        """Initialize with empty state"""
+        """Initialize with default state"""
         # Basic info
         self.name = ""
         self.college = ""
@@ -26,16 +27,25 @@ class StateStore:
         # Web search results
         self.web_search_results = ""
         
-        # MBTI scores
+        # MBTI scores on 0–100 scale (50 = neutral)
         self.mbti_scores = {
-            "ei": 0,  # -10 to +10
-            "sn": 0,  # -10 to +10
-            "tf": 0,  # -10 to +10
-            "jp": 0,  # -10 to +10
+            "ei": 50,  # Extraversion vs Introversion
+            "sn": 50,  # Sensing vs Intuition
+            "tf": 50,  # Thinking vs Feeling
+            "jp": 50,  # Judging vs Perceiving
         }
         
         # Priorities
         self.priorities = []
+        
+        # Goals and interests
+        self.goals_and_interests = {
+            "knowsGoals": False,
+            "goalType": None,
+            "goals": None,
+            "interests": "",
+            "skills": ""
+        }
         
         # Career options
         self.career_options = []
@@ -59,7 +69,7 @@ class StateStore:
         self.web_search_results = results
     
     def update_mbti(self, ei, sn, tf, jp):
-        """Update MBTI scores"""
+        """Update MBTI scores (0–100)"""
         self.mbti_scores = {
             "ei": ei,
             "sn": sn,
@@ -70,6 +80,10 @@ class StateStore:
     def update_priorities(self, priorities):
         """Update priorities"""
         self.priorities = priorities
+    
+    def update_goals_and_interests(self, goals_data):
+        """Update goals and interests data"""
+        self.goals_and_interests = goals_data
     
     def update_career_options(self, options):
         """Update career options"""
@@ -95,5 +109,6 @@ class StateStore:
             },
             "mbti_scores": self.mbti_scores,
             "priorities": self.priorities,
+            "goals_and_interests": self.goals_and_interests,
             "web_search_results": self.web_search_results,
         }
