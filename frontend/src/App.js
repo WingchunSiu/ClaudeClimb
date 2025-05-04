@@ -22,6 +22,7 @@ import GoalsAndInterestsForm from './GoalsAndInterestsForm';
 import MBTIStep from './MBTIStep';
 import ImportantPreferencesStep from './ImportantPreferencesStep';
 import ClaudeFooter from './ClaudeFooter';
+import StepperProgressBar from './StepperProgressBar';
 
 // PlannerOutput component with modern styling
 const PlannerOutput = ({ results }) => {
@@ -261,7 +262,6 @@ function App() {
   return (
     <div style={pageStyle}>
       <div style={contentStyle}>
-        {/* Title with modern styling */}
         <Title
           order={1}
           align="center"
@@ -275,26 +275,8 @@ function App() {
         >
           Claude Climb
         </Title>
-
-        {/* Progress indicator */}
-        {step < 6 && (
-          <Box mb="xl">
-            <Progress
-              value={(step / 5) * 100}
-              color="brand.5"
-              size="sm"
-              radius="xl"
-              styles={{
-                bar: {
-                  transition: 'width 400ms ease'
-                }
-              }}
-            />
-            <Text size="sm" color="dimmed" align="center" mt="xs">
-              Step {step} of 5
-            </Text>
-          </Box>
-        )}
+        {/* Stepper Progress Bar just below the title */}
+        <StepperProgressBar currentStep={step} />
 
         {/* Container for all steps with relative positioning */}
         <div style={stepsContainerStyle}>

@@ -8,7 +8,8 @@ import {
   Box,
   TextInput,
   Paper,
-  SimpleGrid
+  SimpleGrid,
+  Input
 } from '@mantine/core';
 import { IconPlus, IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 
@@ -122,13 +123,13 @@ function ImportantPreferencesStep({ preferences, onChange, onNext, onBack }) {
           </Button>
         ))}
       </SimpleGrid>
-      <Group mt="md" align="flex-end">
+      <div style={{ display: 'flex', marginBottom: '1rem' }}>
         <TextInput
           placeholder="Add a New Preference Here"
           value={customPref}
           onChange={(e) => setCustomPref(e.currentTarget.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') handleAddCustom(); }}
-          style={{ flex: 1 }}
+          style={{ flexGrow: 1, marginRight: '0.5rem' }}
           size="md"
           disabled={selected.length >= maxSelected}
         />
@@ -137,11 +138,12 @@ function ImportantPreferencesStep({ preferences, onChange, onNext, onBack }) {
           color="brand"
           onClick={handleAddCustom}
           size="md"
+          variant="filled"
           disabled={selected.length >= maxSelected}
         >
           Add
         </Button>
-      </Group>
+      </div>
       <Group position="apart" mt="xl">
         <Button
           variant="subtle"
