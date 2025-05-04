@@ -17,6 +17,7 @@ import { IconAlertCircle } from '@tabler/icons-react';
 import NameInputStep from './NameInputStep';
 import BasicInfoStep from './BasicInfoStep';
 import GoalsAndInterestsForm from './GoalsAndInterestsForm';
+import ClaudeFooter from './ClaudeFooter'; // Make sure this points to the newest footer component
 
 // Updated PlannerOutput with improved styling
 const PlannerOutput = ({ results }) => {
@@ -151,25 +152,33 @@ function App() {
     }
   };
 
-  // CSS for the container
-  const containerStyle = {
+  // CSS for the page layout with more margin at bottom
+  const pageStyle = {
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingBottom: '25px' // Added padding at the bottom of the page
+  };
+
+  // CSS for the main content area
+  const contentStyle = {
+    flex: '1 0 auto',
+    width: '100%',
     maxWidth: '720px',
     margin: '0 auto',
-    padding: '2rem 1rem',
-    position: 'relative', // Important for absolute positioning of children
-    minHeight: '80vh'
+    padding: '2rem 1rem'
   };
 
   // CSS for the steps container
   const stepsContainerStyle = {
     position: 'relative',
-    minHeight: '400px', // Set a minimum height to prevent layout shifts
-    marginTop: '2rem'
+    minHeight: '400px',
+    marginTop: '2rem',
+    marginBottom: '2rem'
   };
 
   // Calculate animation properties based on step and direction
   const getAnimationStyle = (stepNum) => {
-    // Base animation settings
     const transition = 'all 400ms ease';
     const baseStyle = {
       position: 'absolute',
@@ -179,27 +188,23 @@ function App() {
       transition,
       opacity: 0,
       transform: 'translateX(0)',
-      pointerEvents: 'none', // Disable interactions when not active
+      pointerEvents: 'none',
     };
 
-    // Animation direction logic
     if (step === stepNum) {
-      // Current step - fully visible
       return {
         ...baseStyle,
         opacity: 1,
         transform: 'translateX(0)',
-        pointerEvents: 'auto', // Enable interactions
+        pointerEvents: 'auto',
       };
     } else if (step > stepNum) {
-      // Past step - slide out to the left
       return {
         ...baseStyle,
         opacity: 0,
         transform: 'translateX(-30px)',
       };
     } else {
-      // Future step - slide in from the right
       return {
         ...baseStyle,
         opacity: 0,
@@ -209,114 +214,118 @@ function App() {
   };
 
   return (
-    <div style={containerStyle}>
-      {/* Title */}
-      <Title
-        order={1}
-        align="center"
-        mb="xl"
-        style={{
-          fontWeight: 600,
-          color: theme.colors.brand[6],
-          letterSpacing: '-0.02em'
-        }}
-      >
-        Claude Climb
-      </Title>
+    <div style={pageStyle}>
+      <div style={contentStyle}>
+        {/* Title with Claude-styled branding */}
+        <Title
+          order={1}
+          align="center"
+          mb="xl"
+          style={{
+            fontWeight: 600,
+            color: theme.colors.brand[6],
+            letterSpacing: '-0.02em'
+          }}
+        >
+          Claude Climb
+        </Title>
 
-      {/* Container for all steps with relative positioning */}
-      <div style={stepsContainerStyle}>
-        {/* Step 1: Name Input */}
-        <div style={getAnimationStyle(1)}>
-          <Paper shadow="sm" p="lg" withBorder style={{ borderRadius: '8px' }}>
-            <NameInputStep
-              formData={formData}
-              onChange={handleFormChange}
-              onNext={nextStep}
-            />
-          </Paper>
-        </div>
+        {/* Container for all steps with relative positioning */}
+        <div style={stepsContainerStyle}>
+          {/* Step 1: Name Input */}
+          <div style={getAnimationStyle(1)}>
+            <Paper shadow="sm" p="lg" withBorder style={{ borderRadius: '8px' }}>
+              <NameInputStep
+                formData={formData}
+                onChange={handleFormChange}
+                onNext={nextStep}
+              />
+            </Paper>
+          </div>
 
-        {/* Step 2: Basic Info */}
-        <div style={getAnimationStyle(2)}>
-          <Paper shadow="sm" p="lg" withBorder style={{ borderRadius: '8px' }}>
-            <BasicInfoStep
-              formData={formData}
-              onChange={handleFormChange}
-              onNext={nextStep}
-              onBack={prevStep}
-            />
-          </Paper>
-        </div>
+          {/* Step 2: Basic Info */}
+          <div style={getAnimationStyle(2)}>
+            <Paper shadow="sm" p="lg" withBorder style={{ borderRadius: '8px' }}>
+              <BasicInfoStep
+                formData={formData}
+                onChange={handleFormChange}
+                onNext={nextStep}
+                onBack={prevStep}
+              />
+            </Paper>
+          </div>
 
-        {/* Step 3: Goals and Interests */}
-        <div style={getAnimationStyle(3)}>
-          <Paper shadow="sm" p="lg" withBorder style={{ borderRadius: '8px' }}>
-            <Title order={2} align="center" mb="lg" color="brand.6">Goals & Interests</Title>
-            <GoalsAndInterestsForm
-              data={formData}
-              onChange={handleFormChange}
-              onKnowsGoalsChange={handleKnowsGoalsChange}
-            />
-            <Group position="apart" mt="xl">
-              <Button variant="subtle" onClick={prevStep} color="gray">
-                Back
-              </Button>
-              <Button onClick={generatePlan} loading={isLoading} color="brand">
-                Generate My Plan
-              </Button>
-            </Group>
-          </Paper>
-        </div>
+          {/* Step 3: Goals and Interests */}
+          <div style={getAnimationStyle(3)}>
+            <Paper shadow="sm" p="lg" withBorder style={{ borderRadius: '8px' }}>
+              <Title order={2} align="center" mb="lg" color="brand.6">Goals & Interests</Title>
+              <GoalsAndInterestsForm
+                data={formData}
+                onChange={handleFormChange}
+                onKnowsGoalsChange={handleKnowsGoalsChange}
+              />
+              <Group position="apart" mt="xl">
+                <Button variant="subtle" onClick={prevStep} color="gray">
+                  Back
+                </Button>
+                <Button onClick={generatePlan} loading={isLoading} color="brand">
+                  Generate My Plan
+                </Button>
+              </Group>
+            </Paper>
+          </div>
 
-        {/* Step 4: Loading / Error / Results */}
-        <div style={getAnimationStyle(4)}>
-          {isLoading && (
-            <div style={{ display: 'flex', justifyContent: 'center', padding: '3rem 0' }}>
-              <Loader color="brand" size="lg" variant="dots" />
-            </div>
-          )}
-          {error && (
-            <Alert
-              icon={<IconAlertCircle size="1rem" />}
-              title="Error"
-              color="red"
-              variant="filled"
-              mt="md"
-              radius="md"
-            >
-              {error}
-            </Alert>
-          )}
-          {plannerResults && !isLoading && (
-            <>
-              <PlannerOutput results={plannerResults} />
+          {/* Step 4: Loading / Error / Results */}
+          <div style={getAnimationStyle(4)}>
+            {isLoading && (
+              <div style={{ display: 'flex', justifyContent: 'center', padding: '3rem 0' }}>
+                <Loader color="brand" size="lg" variant="dots" />
+              </div>
+            )}
+            {error && (
+              <Alert
+                icon={<IconAlertCircle size="1rem" />}
+                title="Error"
+                color="red"
+                variant="filled"
+                mt="md"
+                radius="md"
+              >
+                {error}
+              </Alert>
+            )}
+            {plannerResults && !isLoading && (
+              <>
+                <PlannerOutput results={plannerResults} />
+                <Button
+                  onClick={resetSteps}
+                  variant='light'
+                  mt='lg'
+                  fullWidth
+                  color="brand"
+                  style={{ borderRadius: '6px' }}
+                >
+                  Start Over
+                </Button>
+              </>
+            )}
+            {!isLoading && error && (
               <Button
                 onClick={resetSteps}
                 variant='light'
                 mt='lg'
                 fullWidth
-                color="brand"
+                color="red"
                 style={{ borderRadius: '6px' }}
               >
-                Start Over
+                Try Again
               </Button>
-            </>
-          )}
-          {!isLoading && error && (
-            <Button
-              onClick={resetSteps}
-              variant='light'
-              mt='lg'
-              fullWidth
-              color="red"
-              style={{ borderRadius: '6px' }}
-            >
-              Try Again
-            </Button>
-          )}
+            )}
+          </div>
         </div>
       </div>
+
+      <ClaudeFooter />
     </div>
   );
 }

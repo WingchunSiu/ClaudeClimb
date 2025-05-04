@@ -1,0 +1,55 @@
+/* anthropicGradient.css */
+
+/* Create a more authentic Anthropic-style gradient background */
+body {
+    /* Background gradient inspired by Anthropic's website */
+    background: linear-gradient(140deg, #f7f9ff 0%, #eef1ff 40%, #e9efff 100%);
+    background-attachment: fixed;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+  
+  /* Add the subtle mesh gradient overlay effect */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='smallGrid' width='8' height='8' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 8 0 L 0 0 0 8' fill='none' stroke='rgba(94, 106, 210, 0.03)' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23smallGrid)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+  /* Enhance Paper components to have a Claude-like appearance */
+  .mantine-Paper-root {
+    border: 1px solid rgba(230, 235, 247, 0.8) !important;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(8px);
+  }
+  
+  /* Add a branded appearance to the titles */
+  .mantine-Title-root {
+    letter-spacing: -0.02em;
+  }
+  
+  /* Add subtle transitions */
+  .mantine-Button-root {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .mantine-Button-root:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(94, 106, 210, 0.15);
+  }
+  
+  /* Make the footer more Claude-like */
+  .claude-footer {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(230, 235, 247, 0.8);
+  }

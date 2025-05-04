@@ -19,8 +19,7 @@ function NameInputStep({ formData, onChange, onNext }) {
     <Stack align="center" spacing="lg">
       <Title order={2} align="center">Welcome! Let's start with your name.</Title>
       <form onSubmit={handleNext} style={{ width: '100%' }}>
-        <TextInput
-          label="Name"
+        <TextInput          
           placeholder="Enter your name"
           required
           value={formData.name}
