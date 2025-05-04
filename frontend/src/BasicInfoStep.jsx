@@ -21,15 +21,7 @@ function BasicInfoStep({ formData, onChange, onNext, onBack }) {
     <Stack>
       <Title order={2} align="center">Tell us a bit more...</Title>
        <form onSubmit={handleNext} style={{ width: '100%' }}>
-        <Stack spacing="md">
-            <Select
-                label="Gender"
-                placeholder="Select gender"
-                data={GENDER_OPTIONS}
-                value={formData.gender}
-                onChange={(value) => onChange('gender', value)}
-                clearable
-            />
+        <Stack spacing="md">            
             <Select
                 label="Current Year"
                 placeholder="Select year"

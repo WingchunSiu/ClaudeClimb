@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { MantineProvider } from '@mantine/core';
 import App from './App';
 import '@mantine/core/styles.css';
-import './claudeStyles.css'; // Import our custom Claude-inspired styles
-import './anthropicGradient.css'; // Import our Anthropic gradient styles
+import './styles/claudeStyles.css'; // Import our custom Claude-inspired styles
+import './styles/anthropicGradient.css'; // Import our Anthropic gradient styles
 
 // Define colors outside the theme to avoid the "used before defined" error
 const brandColors = [

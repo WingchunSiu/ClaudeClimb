@@ -17,9 +17,9 @@ import { IconAlertCircle } from '@tabler/icons-react';
 import NameInputStep from './NameInputStep';
 import BasicInfoStep from './BasicInfoStep';
 import GoalsAndInterestsForm from './GoalsAndInterestsForm';
-import ClaudeFooter from './ClaudeFooter'; // Make sure this points to the newest footer component
+import ClaudeFooter from './ClaudeFooter';
 
-// Updated PlannerOutput with improved styling
+// PlannerOutput component remains unchanged
 const PlannerOutput = ({ results }) => {
   const theme = useMantineTheme();
 
@@ -71,7 +71,8 @@ function App() {
     year: '',
     major: '',
     goals: '',
-    knowsGoals: true,
+    knowsGoals: false,
+    goalType: 'industry',
     hobbies: '',
     interests: '',
     skills: ''
@@ -213,6 +214,9 @@ function App() {
     }
   };
 
+  // Determine if footer should be visible - only show on the first step
+  const showFooter = step === 1;
+
   return (
     <div style={pageStyle}>
       <div style={contentStyle}>
@@ -258,7 +262,7 @@ function App() {
           {/* Step 3: Goals and Interests */}
           <div style={getAnimationStyle(3)}>
             <Paper shadow="sm" p="lg" withBorder style={{ borderRadius: '8px' }}>
-              <Title order={2} align="center" mb="lg" color="brand.6">Goals & Interests</Title>
+              <Title order={2} align="center" mb="lg" color="brand.6">Goals, Interests, and Strengths</Title>
               <GoalsAndInterestsForm
                 data={formData}
                 onChange={handleFormChange}
@@ -325,7 +329,8 @@ function App() {
         </div>
       </div>
 
-      <ClaudeFooter />
+      {/* Only render the footer if no name has been entered */}
+      {showFooter && <ClaudeFooter />}
     </div>
   );
 }
