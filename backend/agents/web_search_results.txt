@@ -1,0 +1,31 @@
+Certainly! Here's a summary of the information I was able to find for you as a Computer Science student at Stanford University:
+
+1. Degree Requirements for Computer Science Major:
+   - The Computer Science major at Stanford requires a total of 180 units to graduate.
+   - The core curriculum includes courses in algorithms, programming, computer systems, and mathematical foundations.
+   - Students must also complete a capstone project or thesis in their senior year.
+   - Detailed degree requirements can be found on the Stanford Computer Science department website.
+
+2. Academic Resources:
+   - Stanford offers free peer tutoring through the Hume Center for Writing and Speaking.
+   - The Computer Science Undergraduate Advising office provides academic advising and guidance on course selection.
+   - There are several active student organizations, such as the Computer Science Student Association, that organize study groups and social events.
+   - The university also has a robust network of teaching assistants and office hours to support students in their coursework.
+
+3. Career Services and Internships:
+   - Stanford's Career Education office hosts regular career fairs and workshops focused on tech and engineering careers.
+   - The department has dedicated career advisors who can help students explore internship and job opportunities.
+   - Many leading tech companies recruit heavily from Stanford, offering a variety of internships and full-time roles.
+   - The university also has strong relationships with Silicon Valley startups and provides resources for students interested in entrepreneurship.
+
+4. Notable Professors and Researchers:
+   - Stanford's Computer Science department is home to several renowned professors, including John Hennessy (former university president), Daphne Koller, and Andrew Ng.
+   - These faculty members have made significant contributions to fields like artificial intelligence, computer architecture, and machine learning.
+   - Many professors also lead research labs and centers that provide opportunities for student involvement and collaboration.
+
+5. Specialized Facilities and Centers:
+   - The Gates Computer Science Building houses state-of-the-art teaching and research labs, including the AI Lab and the Center for Artificial Intelligence in Medicine & Imaging.
+   - Stanford also has the Stanford Artificial Intelligence Laboratory (SAIL), which conducts cutting-edge research in areas like natural language processing and robotics.
+   - The university's interdisciplinary institutes, such as the Stanford Institute for Human-Centered Artificial Intelligence, bring together researchers from various fields to tackle complex problems.
+
+I hope this summary provides a helpful overview of the academic resources and opportunities available to you as a Computer Science student at Stanford University. Let me know if you have any other questions!

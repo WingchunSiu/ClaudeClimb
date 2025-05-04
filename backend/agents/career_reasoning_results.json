@@ -1,0 +1,119 @@
+{
+  "recommendations": [
+    {
+      "career": "Financial Analyst",
+      "score": 90,
+      "description": "Financial analysts gather and analyze data to help organizations make sound business decisions. They examine financial statements, industry trends, and economic conditions to provide recommendations to executives, investment committees, and other stakeholders.",
+      "reasons": [
+        {
+          "strength": "MBTI Personality Fit",
+          "explanation": "As an ISTJ, this student's practical, detail-oriented, and methodical approach aligns well with the analytical and data-driven nature of financial analysis. ISTJs excel at gathering and synthesizing information to make informed, logical decisions."
+        },
+        {
+          "strength": "Alignment with Personal Priorities",
+          "explanation": "Financial analysis involves careful attention to detail, a focus on reliability and accuracy, and the ability to work methodically to achieve organizational goals. These priorities match well with the student's stated personal values."
+        },
+        {
+          "strength": "Relevance of College Major",
+          "explanation": "A degree in [student's major] provides a strong foundation in the quantitative and analytical skills required for financial analysis, such as financial modeling, data analysis, and interpreting financial statements."
+        },
+        {
+          "strength": "Availability of Resources at College",
+          "explanation": "The [college name] offers several resources to support students interested in finance, including an active Finance Club, internship opportunities at local financial institutions, and career counseling services to help students explore careers in this field."
+        }
+      ]
+    },
+    {
+      "career": "Operations Manager",
+      "score": 85,
+      "description": "Operations managers are responsible for overseeing the day-to-day operations of an organization, ensuring that processes and procedures are efficient, cost-effective, and aligned with the company's strategic goals.",
+      "reasons": [
+        {
+          "strength": "MBTI Personality Fit",
+          "explanation": "As an ISTJ, this student's practical, detail-oriented, and methodical approach aligns well with the operational and process-driven nature of the operations manager role. ISTJs excel at identifying and implementing systems and procedures to improve efficiency and productivity."
+        },
+        {
+          "strength": "Alignment with Personal Priorities",
+          "explanation": "Operations management involves a focus on reliability, accuracy, and a methodical approach to problem-solving. These priorities match well with the student's stated personal values, as they value dependability and a commitment to achieving organizational objectives."
+        },
+        {
+          "strength": "Relevance of College Major",
+          "explanation": "A degree in [student's major] provides a strong foundation in the analytical, problem-solving, and project management skills required for effective operations management, such as process improvement, supply chain optimization, and resource allocation."
+        },
+        {
+          "strength": "Job Market Prospects",
+          "explanation": "The demand for skilled operations managers is expected to remain strong, as organizations across various industries continue to seek ways to improve their operational efficiency and competitiveness. This career path offers stable employment opportunities and opportunities for advancement."
+        }
+      ]
+    },
+    {
+      "career": "Quality Assurance Analyst",
+      "score": 80,
+      "description": "Quality assurance analysts are responsible for developing and implementing quality control processes to ensure that products or services meet established standards and customer requirements.",
+      "reasons": [
+        {
+          "strength": "MBTI Personality Fit",
+          "explanation": "As an ISTJ, this student's attention to detail, methodical approach, and focus on reliability align well with the quality assurance analyst role. ISTJs excel at identifying and addressing potential issues, ensuring that processes and procedures are followed consistently."
+        },
+        {
+          "strength": "Alignment with Personal Priorities",
+          "explanation": "Quality assurance involves a commitment to accuracy, attention to detail, and a dedication to continuous improvement. These priorities match well with the student's stated personal values, as they value dependability and a systematic approach to problem-solving."
+        },
+        {
+          "strength": "Relevance of College Major",
+          "explanation": "A degree in [student's major] provides a strong foundation in the analytical and problem-solving skills required for quality assurance, such as data analysis, process mapping, and root cause analysis."
+        },
+        {
+          "strength": "Availability of Resources at College",
+          "explanation": "The [college name] offers several resources to support students interested in quality assurance, including opportunities to participate in project-based learning experiences, internships at local manufacturing or technology companies, and career counseling services to help students explore careers in this field."
+        }
+      ]
+    },
+    {
+      "career": "Project Manager",
+      "score": 75,
+      "description": "Project managers are responsible for planning, organizing, and overseeing the successful completion of projects, ensuring that they are delivered on time, within budget, and to the required quality standards.",
+      "reasons": [
+        {
+          "strength": "MBTI Personality Fit",
+          "explanation": "As an ISTJ, this student's practical, detail-oriented, and methodical approach aligns well with the project management role. ISTJs excel at developing and executing comprehensive project plans, as well as monitoring progress and addressing issues that arise."
+        },
+        {
+          "strength": "Alignment with Personal Priorities",
+          "explanation": "Project management involves a focus on reliability, accuracy, and a systematic approach to achieving organizational goals. These priorities match well with the student's stated personal values, as they value dependability and a commitment to delivering quality results."
+        },
+        {
+          "strength": "Relevance of College Major",
+          "explanation": "A degree in [student's major] provides a strong foundation in the analytical, problem-solving, and communication skills required for effective project management, such as resource allocation, risk assessment, and stakeholder management."
+        },
+        {
+          "strength": "Job Market Prospects",
+          "explanation": "The demand for skilled project managers is expected to remain strong, as organizations across various industries continue to seek individuals who can effectively manage complex projects and deliver tangible results. This career path offers stable employment opportunities and opportunities for advancement."
+        }
+      ]
+    },
+    {
+      "career": "Business Analyst",
+      "score": 70,
+      "description": "Business analysts are responsible for gathering, analyzing, and interpreting data to help organizations make informed decisions and improve their business processes.",
+      "reasons": [
+        {
+          "strength": "MBTI Personality Fit",
+          "explanation": "As an ISTJ, this student's practical, detail-oriented, and methodical approach aligns well with the analytical and problem-solving nature of the business analyst role. ISTJs excel at collecting and synthesizing information to identify and address organizational challenges."
+        },
+        {
+          "strength": "Alignment with Personal Priorities",
+          "explanation": "Business analysis involves a focus on reliability, accuracy, and a systematic approach to problem-solving. These priorities match well with the student's stated personal values, as they value dependability and a commitment to delivering high-quality insights and recommendations."
+        },
+        {
+          "strength": "Relevance of College Major",
+          "explanation": "A degree in [student's major] provides a strong foundation in the quantitative, analytical, and communication skills required for effective business analysis, such as data modeling, process mapping, and stakeholder management."
+        },
+        {
+          "strength": "Availability of Resources at College",
+          "explanation": "The [college name] offers several resources to support students interested in business analysis, including opportunities to participate in case competitions, internships at local organizations, and career counseling services to help students explore careers in this field."
+        }
+      ]
+    }
+  ]
+}
