@@ -239,212 +239,140 @@ function App() {
     setTimeout(() => {
       setPlannerResults({
         career: "Software Engineer",
-        introduction: "Alex, as a third-year Computer Science student at the prestigious Stanford University, you have an incredible opportunity to prepare for a rewarding career as a Software Engineer. With your strong technical foundation, creative problem-solving abilities, and alignment with the industry's priorities, you are well-positioned to thrive in this dynamic field. I've crafted a personalized career development plan to guide you through the next steps and help you make the most of your time at Stanford.",
+        introduction: "Hi Alex! I've created a personalized roadmap to help you navigate your journey from Stanford CS student to successful software engineer. As an ESFJ who values work-life balance and creative problem-solving, you're well-positioned to thrive in this field. Your natural ability to connect with others and preference for practical solutions will be tremendous assets. Let's make the most of your remaining time at Stanford!",
         sections: [
           {
-            title: "Coursework",
-            description: "Leverage Stanford's renowned Computer Science program to develop the essential technical skills for software engineering.",
+            title: "Coursework Strategy",
+            description: "Given your current stage as a junior, let's focus on courses that will strengthen your software engineering foundation while keeping your options open.",
             steps: [
               {
-                title: "Enroll in Core CS Courses",
-                description: "Ensure you complete the core Computer Science courses, such as Algorithms, Data Structures, and Programming Languages. These foundational classes will provide you with the strong technical background needed for software engineering roles.",
-                timeline: "Complete by the end of your junior year",
+                title: "Core Systems Focus",
+                description: "Since you're in your junior year, prioritize completing CS 110 and CS 111 if you haven't already. These systems courses are crucial for software engineering interviews and will give you practical knowledge you'll use daily.",
+                timeline: "Next quarter",
                 resources: [
-                  "Stanford's CS Course Catalog",
-                  "Academic Advising"
+                  "Course catalog",
+                  "CS department advisors",
+                  "Previous course evaluations"
                 ]
               },
               {
-                title: "Explore Electives in Emerging Technologies",
-                description: "Given your interest in AI and machine learning, consider taking electives in these cutting-edge areas, such as Machine Learning, Artificial Intelligence, and Deep Learning. These courses will allow you to gain specialized knowledge and stay ahead of industry trends.",
-                timeline: "Take these courses in your junior and senior years",
+                title: "Choose Your Track",
+                description: "Consider the Systems or Human-Computer Interaction track, which align well with your ESFJ traits and interest in creative problem-solving. The Systems track will give you solid engineering fundamentals, while HCI lets you combine technical skills with user empathy.",
+                timeline: "Before course selection for next quarter",
                 resources: [
-                  "Stanford's CS Course Catalog",
-                  "Faculty Advisors"
-                ]
-              },
-              {
-                title: "Develop Communication and Collaboration Skills",
-                description: "While technical skills are essential, software engineering also requires strong communication and teamwork abilities. Enroll in courses that focus on technical writing, project management, and interpersonal skills to complement your technical expertise.",
-                timeline: "Complete by the end of your junior year",
-                resources: [
-                  "Stanford's Communication and Collaboration Courses",
-                  "Career Center"
+                  "Track requirements documentation",
+                  "CS peer advisors",
+                  "Professor office hours"
                 ]
               }
             ]
           },
           {
-            title: "Extracurricular Activities",
-            description: "Complement your academic pursuits with hands-on experience and personal growth opportunities.",
+            title: "Hands-on Experience",
+            description: "Let's leverage Stanford's amazing opportunities to build your practical experience.",
             steps: [
               {
-                title: "Join a Student-Led Tech Club",
-                description: "Get involved with organizations like the Stanford Computer Science Club or the Stanford Artificial Intelligence Laboratory Student Association. These groups offer opportunities to collaborate on projects, attend tech talks, and network with industry professionals.",
-                timeline: "Join a club in your sophomore or junior year",
+                title: "Summer Internship Preparation",
+                description: "Alex, with your people skills, you'd thrive at companies that value collaboration. Target companies like Google, Microsoft, or smaller startups that emphasize work-life balance and creative culture. Start applying in fall for summer positions.",
+                timeline: "September-November",
                 resources: [
-                  "Stanford Student Organizations Directory",
-                  "Club Websites"
+                  "BEAM career services",
+                  "Handshake portal",
+                  "CS department career fairs"
                 ]
               },
               {
-                title: "Participate in Hackathons and Coding Competitions",
-                description: "Showcase your problem-solving skills and creativity by participating in hackathons and coding competitions, both on-campus and nationally. These events will challenge you to think outside the box and work under time pressure, valuable skills for software engineering.",
-                timeline: "Participate in at least one hackathon per year",
+                title: "Teaching Assistant Role",
+                description: "Consider becoming a CS198 Teaching Assistant for CS106B or similar courses. This will strengthen your fundamentals and leverage your natural ability to help others learn.",
+                timeline: "Apply before next quarter",
                 resources: [
-                  "Stanford Hackathon Calendar",
-                  "Major League Hacking"
-                ]
-              },
-              {
-                title: "Explore Entrepreneurial Opportunities",
-                description: "Stanford's strong ties to Silicon Valley provide excellent opportunities to explore entrepreneurship. Consider participating in the StartX accelerator program or the Stanford Venture Studio to gain hands-on experience in building and launching your own tech projects.",
-                timeline: "Explore these opportunities in your junior and senior years",
-                resources: [
-                  "StartX",
-                  "Stanford Venture Studio"
-                ]
-              }
-            ]
-          },
-          {
-            title: "Internships and Work Experiences",
-            description: "Gain practical, industry-relevant experience to complement your academic studies.",
-            steps: [
-              {
-                title: "Pursue Internships at Tech Companies",
-                description: "Leverage Stanford's connections to secure internships at leading tech companies, such as Google, Microsoft, or Apple. These experiences will allow you to apply your skills in a professional setting, build your network, and gain valuable insights into the software engineering industry.",
-                timeline: "Secure at least one internship by the end of your junior year",
-                resources: [
-                  "Stanford Career Center",
-                  "Company Recruiting Events"
-                ]
-              },
-              {
-                title: "Explore Research Opportunities",
-                description: "Consider working as a research assistant for a professor in the Computer Science department, particularly in areas related to your interests in AI and machine learning. This will not only deepen your technical knowledge but also provide you with valuable research experience.",
-                timeline: "Pursue research opportunities throughout your junior and senior years",
-                resources: [
-                  "CS Faculty Profiles",
-                  "Undergraduate Research Program"
-                ]
-              },
-              {
-                title: "Gain Freelance or Contract Experience",
-                description: "To further develop your skills and build your portfolio, consider taking on freelance or contract software engineering projects. This will allow you to work on a variety of projects, hone your problem-solving abilities, and demonstrate your expertise to potential employers.",
-                timeline: "Seek out freelance opportunities in your junior and senior years",
-                resources: [
-                  "Upwork",
-                  "Freelancer.com",
-                  "Local Networking Events"
+                  "CS198 program coordinator",
+                  "Current TAs",
+                  "Course staff"
                 ]
               }
             ]
           },
           {
             title: "Skill Development",
-            description: "Continuously expand your technical and professional skills to stay competitive in the software engineering field.",
+            description: "Focus on building both technical and soft skills that align with your personality and career goals.",
             steps: [
               {
-                title: "Master Programming Languages and Frameworks",
-                description: "Become proficient in the most in-demand programming languages and frameworks for software engineering, such as Python, Java, JavaScript, and React. Stay up-to-date with industry trends and continuously learn new technologies.",
-                timeline: "Develop these skills throughout your time at Stanford",
+                title: "Technical Portfolio",
+                description: "Create 2-3 personal projects that showcase your creativity and problem-solving abilities. Consider building something that helps your community, which would align with your ESFJ values.",
+                timeline: "Over the next two quarters",
                 resources: [
-                  "Online Tutorials",
-                  "Stanford's CS Course Offerings",
-                  "Industry Blogs"
+                  "GitHub",
+                  "Stanford makerspaces",
+                  "CS project showcase events"
                 ]
               },
               {
-                title: "Develop Strong Problem-Solving and Critical Thinking Skills",
-                description: "As an ENTP, your natural inclination towards creative problem-solving aligns well with the demands of software engineering. Hone these skills through coding challenges, hackathons, and project-based learning.",
-                timeline: "Cultivate these skills throughout your time at Stanford",
+                title: "Communication Skills",
+                description: "Your natural ESFJ strengths in communication are valuable! Further develop them through technical writing and presentation opportunities.",
+                timeline: "Ongoing",
                 resources: [
-                  "Coding Practice Platforms",
-                  "Stanford's Problem-Solving Courses"
-                ]
-              },
-              {
-                title: "Enhance Your Communication and Collaboration Abilities",
-                description: "Effective communication and teamwork are essential for software engineers. Seek out opportunities to improve your written and verbal communication skills, as well as your ability to work collaboratively with cross-functional teams.",
-                timeline: "Develop these skills throughout your time at Stanford",
-                resources: [
-                  "Stanford's Communication Courses",
-                  "Teamwork Workshops"
+                  "PWR courses",
+                  "Toastmasters at Stanford",
+                  "Technical writing workshops"
                 ]
               }
             ]
           },
           {
-            title: "Networking and Connections",
-            description: "Leverage Stanford's extensive network and resources to build meaningful connections in the software engineering industry.",
+            title: "Networking",
+            description: "Build meaningful connections that align with your extroverted nature.",
             steps: [
               {
-                title: "Attend Tech Industry Events",
-                description: "Participate in tech conferences, meetups, and networking events, both on-campus and in the broader Silicon Valley community. These will allow you to learn from industry experts, stay up-to-date on the latest trends, and make valuable connections with potential employers.",
-                timeline: "Attend at least one event per semester",
+                title: "Join Tech Communities",
+                description: "Get involved with Stanford's CS community in ways that energize you. Consider joining Women in Computer Science (WiCS) or Association for Computing Machinery (ACM).",
+                timeline: "Immediate",
                 resources: [
-                  "Stanford Career Center Events",
-                  "Meetup.com",
-                  "LinkedIn Events"
+                  "Student organizations directory",
+                  "CS department events calendar",
+                  "Club fairs"
                 ]
               },
               {
-                title: "Connect with Alumni in Software Engineering",
-                description: "Utilize Stanford's extensive alumni network to reach out to graduates who are working as software engineers. They can provide valuable insights, mentorship, and potentially even referrals for internships or job opportunities.",
-                timeline: "Reach out to at least 3 alumni per semester",
+                title: "Alumni Connections",
+                description: "Connect with Stanford CS alumni who work at companies prioritizing work-life balance and creative culture.",
+                timeline: "Ongoing",
                 resources: [
-                  "Stanford Alumni Association",
-                  "LinkedIn Alumni Tool"
-                ]
-              },
-              {
-                title: "Build Relationships with Faculty and Researchers",
-                description: "Engage with the renowned faculty and researchers in Stanford's Computer Science department. They can serve as mentors, provide research opportunities, and help you navigate the industry and academic pathways available to you.",
-                timeline: "Establish relationships with at least 2 faculty members by the end of your junior year",
-                resources: [
-                  "CS Faculty Profiles",
-                  "Office Hours",
-                  "Research Seminars"
+                  "Stanford Alumni Network",
+                  "LinkedIn",
+                  "BEAM alumni events"
                 ]
               }
             ]
           },
           {
-            title: "Leveraging Stanford University Resources",
-            description: "Take full advantage of the world-class resources and support available to you at Stanford University.",
+            title: "Work-Life Balance",
+            description: "Maintain your well-being while pursuing your goals.",
             steps: [
               {
-                title: "Utilize the Career Center",
-                description: "The Stanford Career Center offers a wealth of resources, from career counseling and resume workshops to job search assistance and interview preparation. Regularly engage with the Career Center to ensure you're on the right track for your software engineering career.",
-                timeline: "Visit the Career Center at least once per semester",
+                title: "Bay Area Exploration",
+                description: "Take advantage of Stanford's location! Join hiking groups for local trails, explore San Francisco's tech meetups, or enjoy weekend trips to Santa Cruz.",
+                timeline: "Weekly/Monthly",
                 resources: [
-                  "Stanford Career Center",
-                  "Career Counseling Appointments"
+                  "Stanford Outdoor Center",
+                  "Bay Area Hiking Groups",
+                  "Stanford Transportation"
                 ]
               },
               {
-                title: "Participate in the Startup Garage Program",
-                description: "As an ENTP with a strong interest in emerging technologies, the Startup Garage program at Stanford could be an excellent opportunity for you. This program allows students to work on their own startup ideas and gain hands-on entrepreneurial experience.",
-                timeline: "Apply to the Startup Garage program in your junior or senior year",
+                title: "Creative Outlets",
+                description: "Balance your technical work with creative activities. Consider joining Stanford's Design for America chapter or participate in hackathons that focus on social impact.",
+                timeline: "Quarterly",
                 resources: [
-                  "Startup Garage",
-                  "Entrepreneurship Courses"
-                ]
-              },
-              {
-                title: "Explore the School of Engineering Resources",
-                description: "The School of Engineering at Stanford offers a variety of resources, including workshops, speaker series, and student organizations, that can complement your software engineering career development. Take advantage of these opportunities to expand your knowledge and network.",
-                timeline: "Engage with the School of Engineering resources throughout your time at Stanford",
-                resources: [
-                  "School of Engineering Events Calendar",
-                  "Student Engineering Organizations"
+                  "Stanford d.school events",
+                  "Local hackathons",
+                  "Campus recreation programs"
                 ]
               }
             ]
           }
         ],
-        conclusion: "Alex, with your strong technical foundation, creative problem-solving abilities, and alignment with the software engineering industry's priorities, you are poised for success in this dynamic field. By leveraging the world-class resources and opportunities available to you at Stanford University, you can develop the necessary skills, gain practical experience, and build a robust professional network to thrive as a Software Engineer. I'm confident that by following this personalized career development plan, you will be well on your way to achieving your goals. Remember, I'm here to support you every step of the way. Wishing you all the best in your journey!"
+        conclusion: "Alex, you're in an excellent position to launch a fulfilling career as a software engineer! Your ESFJ traits of empathy, organization, and people skills will be incredible assets in this field. Remember to leverage Stanford's amazing resources while staying true to your priorities of work-life balance and creative problem-solving. Take it one step at a time, and don't hesitate to reach out to your advisors and peers for support. You've got this!"
       });
       setIsLoading(false);
     }, 800);
