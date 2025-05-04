@@ -2,7 +2,7 @@
 
 **A multi-agent career guidance system powered by Anthropic’s Claude models**  
 
-ClaudeClimb empowers all students—especially those from under-resourced or under-represented communities—to:
+ClaudeClimb empowers all college students—especially those from under-resourced or under-represented communities—to:
 
 - **Discover degree requirements & resources**  
   Gain equitable access to clear, up-to-date academic pathways, tutoring, advising, and campus support services.
