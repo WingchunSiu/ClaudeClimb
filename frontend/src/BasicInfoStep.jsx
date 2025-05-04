@@ -70,6 +70,27 @@ function BasicInfoStep({ formData, onChange, onNext, onBack }) {
               }
             }}
           />
+          <Box mt="md">
+            <TextInput
+              label="University/College"
+              placeholder="e.g., University of Southern California"
+              value={formData.university || ''}
+              onChange={(e) => onChange('university', e.currentTarget.value)}
+              size="lg"
+              styles={{
+                input: {
+                  fontSize: '1.1rem',
+                  color: '#2c1810'
+                },
+                label: {
+                  fontSize: '1rem',
+                  marginBottom: '0.5rem',
+                  color: '#2c1810'
+                }
+              }}
+              mb="md"
+            />
+          </Box>
           <Group position="apart" mt="xl">
             <Button 
               variant="subtle" 
