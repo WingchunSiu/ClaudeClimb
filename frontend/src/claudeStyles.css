@@ -1,0 +1,93 @@
+/* Claude-inspired global styles */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Subtle background gradient like Claude */
+  body {
+    background: linear-gradient(to bottom, #f9f9fb, #f0f4ff);
+    min-height: 100vh;
+    font-feature-settings: "liga", "kern";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Claude-like input styling */
+  input, textarea, select {
+    font-family: inherit;
+    color: inherit;
+    background-color: transparent;
+    border-color: #dcdfe4;
+    transition: border-color 0.2s ease-in-out;
+  }
+  
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #5e6ad2;
+    box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.1);
+  }
+  
+  /* Claude-like button styling */
+  button {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition: all 0.2s ease;
+  }
+  
+  button:hover {
+    transform: translateY(-1px);
+  }
+  
+  button:active {
+    transform: translateY(0);
+  }
+  
+  /* Form elements styling */
+  .mantine-TextInput-root, 
+  .mantine-Textarea-root, 
+  .mantine-Select-root,
+  .mantine-Radio-root {
+    margin-bottom: 1rem;
+  }
+  
+  .mantine-TextInput-label, 
+  .mantine-Textarea-label, 
+  .mantine-Select-label,
+  .mantine-Radio-label {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: #444;
+  }
+  
+  /* Card-like elements */
+  .mantine-Paper-root {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .mantine-Paper-root:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Headings */
+  h1, h2, h3, h4, h5, h6,
+  .mantine-Title-root {
+    letter-spacing: -0.02em;
+  }
+  
+  /* Dividers */
+  .mantine-Divider-root {
+    opacity: 0.6;
+  }
+  
+  /* Loader styling */
+  .mantine-Loader-root {
+    color: #5e6ad2;
+  }
+  
+  /* Claude uses smooth transitions */
+  .mantine-Transition-root {
+    transition-duration: 300ms;
+  }
