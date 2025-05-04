@@ -1,6 +1,6 @@
 # ClaudeClimb
 
-**A multi-agent career guidance system powered by Anthropic’s Claude models with a focus on social impact.**  
+**A multi-agent career guidance system powered by Anthropic’s Claude models**  
 
 ClaudeClimb empowers all students—especially those from under-resourced or under-represented communities—to:
 
