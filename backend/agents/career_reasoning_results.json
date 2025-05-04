@@ -1,117 +1,117 @@
 {
   "recommendations": [
     {
-      "career": "Financial Analyst",
+      "career": "Software Engineer",
       "score": 90,
-      "description": "Financial analysts gather and analyze data to help organizations make sound business decisions. They examine financial statements, industry trends, and economic conditions to provide recommendations to executives, investment committees, and other stakeholders.",
+      "description": "A software engineer designs, develops, and maintains computer programs and systems to solve complex problems.",
       "reasons": [
         {
-          "strength": "MBTI Personality Fit",
-          "explanation": "As an ISTJ, this student's practical, detail-oriented, and methodical approach aligns well with the analytical and data-driven nature of financial analysis. ISTJs excel at gathering and synthesizing information to make informed, logical decisions."
+          "strength": "Alignment with MBTI personality traits",
+          "explanation": "As an ESFJ, Alex has a strong preference for Feeling, which aligns well with the collaborative and people-oriented nature of software engineering. Their Extraversion and Sensing preferences also suggest they would enjoy the hands-on, interactive work of building and testing software."
         },
         {
-          "strength": "Alignment with Personal Priorities",
-          "explanation": "Financial analysis involves careful attention to detail, a focus on reliability and accuracy, and the ability to work methodically to achieve organizational goals. These priorities match well with the student's stated personal values."
+          "strength": "Compatibility with personal priorities",
+          "explanation": "Software engineering offers a good balance of work-life balance, creative problem-solving, and high income potential. Additionally, the rise of remote work options in the tech industry can provide the flexibility Alex values."
         },
         {
-          "strength": "Relevance of College Major",
-          "explanation": "A degree in [student's major] provides a strong foundation in the quantitative and analytical skills required for financial analysis, such as financial modeling, data analysis, and interpreting financial statements."
+          "strength": "Leverage of Computer Science degree",
+          "explanation": "Alex's Computer Science degree from Stanford University provides an excellent foundation for a career in software engineering. The program's comprehensive curriculum and strong industry connections will give Alex the technical skills and professional network to thrive in this field."
         },
         {
-          "strength": "Availability of Resources at College",
-          "explanation": "The [college name] offers several resources to support students interested in finance, including an active Finance Club, internship opportunities at local financial institutions, and career counseling services to help students explore careers in this field."
+          "strength": "Strong job market prospects",
+          "explanation": "The demand for skilled software engineers is expected to continue growing, with the U.S. Bureau of Labor Statistics projecting a 22% increase in employment in this occupation from 2019 to 2029. This positive job outlook, combined with the high earning potential, makes software engineering an excellent career path for Alex."
         }
       ]
     },
     {
-      "career": "Operations Manager",
+      "career": "Product Manager",
       "score": 85,
-      "description": "Operations managers are responsible for overseeing the day-to-day operations of an organization, ensuring that processes and procedures are efficient, cost-effective, and aligned with the company's strategic goals.",
+      "description": "A product manager is responsible for defining the vision, strategy, and roadmap for a product, and collaborating with cross-functional teams to bring it to life.",
       "reasons": [
         {
-          "strength": "MBTI Personality Fit",
-          "explanation": "As an ISTJ, this student's practical, detail-oriented, and methodical approach aligns well with the operational and process-driven nature of the operations manager role. ISTJs excel at identifying and implementing systems and procedures to improve efficiency and productivity."
+          "strength": "Alignment with MBTI personality traits",
+          "explanation": "As an ESFJ, Alex's natural strengths in interpersonal communication, empathy, and attention to detail make them well-suited for the collaborative and user-centric nature of product management. Their Feeling preference also aligns with the focus on understanding customer needs and delivering value."
         },
         {
-          "strength": "Alignment with Personal Priorities",
-          "explanation": "Operations management involves a focus on reliability, accuracy, and a methodical approach to problem-solving. These priorities match well with the student's stated personal values, as they value dependability and a commitment to achieving organizational objectives."
+          "strength": "Compatibility with personal priorities",
+          "explanation": "Product management offers a good balance of work-life balance, creative problem-solving, and high income potential. The role also often provides opportunities for remote work, which aligns with Alex's stated priorities."
         },
         {
-          "strength": "Relevance of College Major",
-          "explanation": "A degree in [student's major] provides a strong foundation in the analytical, problem-solving, and project management skills required for effective operations management, such as process improvement, supply chain optimization, and resource allocation."
+          "strength": "Leverage of Computer Science degree",
+          "explanation": "Alex's Computer Science degree from Stanford University provides a strong technical foundation that is highly valued in product management roles, especially in the technology industry. The program's emphasis on human-computer interaction and design principles also complements the product management skillset."
         },
         {
-          "strength": "Job Market Prospects",
-          "explanation": "The demand for skilled operations managers is expected to remain strong, as organizations across various industries continue to seek ways to improve their operational efficiency and competitiveness. This career path offers stable employment opportunities and opportunities for advancement."
+          "strength": "Growth potential in the tech industry",
+          "explanation": "As the tech industry continues to evolve, the demand for skilled product managers who can bridge the gap between technology and user needs is expected to increase. Stanford's connections to Silicon Valley and the broader tech ecosystem can provide Alex with valuable networking and career development opportunities in this field."
         }
       ]
     },
     {
-      "career": "Quality Assurance Analyst",
+      "career": "User Experience (UX) Designer",
       "score": 80,
-      "description": "Quality assurance analysts are responsible for developing and implementing quality control processes to ensure that products or services meet established standards and customer requirements.",
+      "description": "A UX designer is responsible for creating intuitive, user-centered digital experiences by conducting research, designing interfaces, and testing prototypes.",
       "reasons": [
         {
-          "strength": "MBTI Personality Fit",
-          "explanation": "As an ISTJ, this student's attention to detail, methodical approach, and focus on reliability align well with the quality assurance analyst role. ISTJs excel at identifying and addressing potential issues, ensuring that processes and procedures are followed consistently."
+          "strength": "Alignment with MBTI personality traits",
+          "explanation": "As an ESFJ, Alex's empathy, attention to detail, and focus on people-oriented solutions make them well-suited for the user-centric nature of UX design. Their Sensing preference also suggests they would enjoy the hands-on, practical aspects of the role."
         },
         {
-          "strength": "Alignment with Personal Priorities",
-          "explanation": "Quality assurance involves a commitment to accuracy, attention to detail, and a dedication to continuous improvement. These priorities match well with the student's stated personal values, as they value dependability and a systematic approach to problem-solving."
+          "strength": "Compatibility with personal priorities",
+          "explanation": "UX design offers a good balance of work-life balance, creative problem-solving, and high income potential. The field also provides opportunities for remote work, which aligns with Alex's stated priorities."
         },
         {
-          "strength": "Relevance of College Major",
-          "explanation": "A degree in [student's major] provides a strong foundation in the analytical and problem-solving skills required for quality assurance, such as data analysis, process mapping, and root cause analysis."
+          "strength": "Leverage of Computer Science degree",
+          "explanation": "Alex's Computer Science degree from Stanford University provides a strong technical foundation that is highly valued in UX design roles. The program's emphasis on human-computer interaction and design principles also directly complement the UX design skillset."
         },
         {
-          "strength": "Availability of Resources at College",
-          "explanation": "The [college name] offers several resources to support students interested in quality assurance, including opportunities to participate in project-based learning experiences, internships at local manufacturing or technology companies, and career counseling services to help students explore careers in this field."
+          "strength": "Growth potential in the tech industry",
+          "explanation": "As the tech industry continues to prioritize user experience, the demand for skilled UX designers is expected to increase. Stanford's connections to Silicon Valley and the broader tech ecosystem can provide Alex with valuable networking and career development opportunities in this field."
         }
       ]
     },
     {
-      "career": "Project Manager",
+      "career": "Data Scientist",
       "score": 75,
-      "description": "Project managers are responsible for planning, organizing, and overseeing the successful completion of projects, ensuring that they are delivered on time, within budget, and to the required quality standards.",
+      "description": "A data scientist is responsible for extracting insights and knowledge from large, complex datasets using a combination of statistical analysis, machine learning, and data visualization techniques.",
       "reasons": [
         {
-          "strength": "MBTI Personality Fit",
-          "explanation": "As an ISTJ, this student's practical, detail-oriented, and methodical approach aligns well with the project management role. ISTJs excel at developing and executing comprehensive project plans, as well as monitoring progress and addressing issues that arise."
+          "strength": "Alignment with MBTI personality traits",
+          "explanation": "While data science may not be the most natural fit for Alex's ESFJ personality type, their Sensing preference and problem-solving skills can still be valuable assets in this field. The analytical nature of data science may also appeal to Alex's logical and detail-oriented tendencies."
         },
         {
-          "strength": "Alignment with Personal Priorities",
-          "explanation": "Project management involves a focus on reliability, accuracy, and a systematic approach to achieving organizational goals. These priorities match well with the student's stated personal values, as they value dependability and a commitment to delivering quality results."
+          "strength": "Compatibility with personal priorities",
+          "explanation": "Data science offers a good balance of work-life balance, creative problem-solving, and high income potential. The field also provides opportunities for remote work, which aligns with Alex's stated priorities."
         },
         {
-          "strength": "Relevance of College Major",
-          "explanation": "A degree in [student's major] provides a strong foundation in the analytical, problem-solving, and communication skills required for effective project management, such as resource allocation, risk assessment, and stakeholder management."
+          "strength": "Leverage of Computer Science degree",
+          "explanation": "Alex's Computer Science degree from Stanford University provides a strong technical foundation that is highly valued in data science roles. The program's emphasis on areas like artificial intelligence, machine learning, and data structures can directly translate to the skills needed for this field."
         },
         {
-          "strength": "Job Market Prospects",
-          "explanation": "The demand for skilled project managers is expected to remain strong, as organizations across various industries continue to seek individuals who can effectively manage complex projects and deliver tangible results. This career path offers stable employment opportunities and opportunities for advancement."
+          "strength": "Growth potential in the tech industry",
+          "explanation": "As the tech industry continues to generate vast amounts of data, the demand for skilled data scientists who can extract valuable insights is expected to increase. Stanford's connections to Silicon Valley and the broader tech ecosystem can provide Alex with valuable networking and career development opportunities in this field."
         }
       ]
     },
     {
-      "career": "Business Analyst",
+      "career": "Cybersecurity Analyst",
       "score": 70,
-      "description": "Business analysts are responsible for gathering, analyzing, and interpreting data to help organizations make informed decisions and improve their business processes.",
+      "description": "A cybersecurity analyst is responsible for protecting an organization's computer systems and networks from cyber threats, including analyzing security data, implementing security measures, and responding to incidents.",
       "reasons": [
         {
-          "strength": "MBTI Personality Fit",
-          "explanation": "As an ISTJ, this student's practical, detail-oriented, and methodical approach aligns well with the analytical and problem-solving nature of the business analyst role. ISTJs excel at collecting and synthesizing information to identify and address organizational challenges."
+          "strength": "Alignment with MBTI personality traits",
+          "explanation": "While cybersecurity may not be the most natural fit for Alex's ESFJ personality type, their attention to detail, problem-solving skills, and desire to help others can still be valuable assets in this field. The analytical and technical nature of the role may also appeal to Alex's logical tendencies."
         },
         {
-          "strength": "Alignment with Personal Priorities",
-          "explanation": "Business analysis involves a focus on reliability, accuracy, and a systematic approach to problem-solving. These priorities match well with the student's stated personal values, as they value dependability and a commitment to delivering high-quality insights and recommendations."
+          "strength": "Compatibility with personal priorities",
+          "explanation": "Cybersecurity offers a good balance of work-life balance, creative problem-solving, and high income potential. The field also provides opportunities for remote work, which aligns with Alex's stated priorities."
         },
         {
-          "strength": "Relevance of College Major",
-          "explanation": "A degree in [student's major] provides a strong foundation in the quantitative, analytical, and communication skills required for effective business analysis, such as data modeling, process mapping, and stakeholder management."
+          "strength": "Leverage of Computer Science degree",
+          "explanation": "Alex's Computer Science degree from Stanford University provides a strong technical foundation that is highly valued in cybersecurity roles. The program's emphasis on areas like computer systems, networks, and security principles can directly translate to the skills needed for this field."
         },
         {
-          "strength": "Availability of Resources at College",
-          "explanation": "The [college name] offers several resources to support students interested in business analysis, including opportunities to participate in case competitions, internships at local organizations, and career counseling services to help students explore careers in this field."
+          "strength": "Growing demand for cybersecurity professionals",
+          "explanation": "As the threat of cyber attacks continues to grow, the demand for skilled cybersecurity professionals is expected to increase. Stanford's connections to Silicon Valley and the broader tech ecosystem can provide Alex with valuable networking and career development opportunities in this field."
         }
       ]
     }

@@ -1,6 +1,7 @@
 """
 Reasoning Agent: Analyzes student profiles to determine suitable career paths
 Provides detailed reasoning for each recommendation
+Includes proper initialization for testing
 """
 import os
 import sys
@@ -36,8 +37,20 @@ except ImportError:
             self.grade = "Junior"
             self.gender = "Other"
             self.web_search_results = "Stanford's Computer Science program is highly regarded..."
-            self.mbti_scores = {"ei": 5, "sn": 3, "tf": -4, "jp": 2}
+            self.mbti_scores = {
+            "ei": 50,  # Extraversion vs Introversion
+            "sn": 50,  # Sensing vs Intuition
+            "tf": 50,  # Thinking vs Feeling
+            "jp": 50,  # Judging vs Perceiving
+        }
             self.priorities = ["Work-life balance", "Creative problem-solving", "High income potential"]
+            self.goals_and_interests = {
+                "knowsGoals": True,
+                "goalType": "industry",
+                "goals": "I want to become a tech leader who makes a positive impact through innovation.",
+                "interests": "AI, Machine Learning, Photography, Hiking",
+                "skills": "Problem Solving, Communication, Programming"
+            }
             self.career_options = []
             self.career_reasoning = {}
             
@@ -46,6 +59,13 @@ except ImportError:
             
         def update_career_reasoning(self, reasoning):
             self.career_reasoning = reasoning
+            
+        def update_basic_info(self, name, college, major, grade, gender):
+            self.name = name
+            self.college = college
+            self.major = major
+            self.grade = grade
+            self.gender = gender
 
 # Load environment variables
 load_dotenv()
@@ -78,31 +98,31 @@ class ReasoningResponse(BaseModel):
 def format_mbti(scores):
     """Format MBTI scores as a type string with percentages"""
     mbti_type = ""
-    mbti_type += "E" if scores["ei"] > 0 else "I"
-    mbti_type += "N" if scores["sn"] > 0 else "S"
-    mbti_type += "F" if scores["tf"] > 0 else "T"
-    mbti_type += "P" if scores["jp"] > 0 else "J"
+    mbti_type += "E" if scores["ei"] >= 50 else "I"
+    mbti_type += "N" if scores["sn"] >= 50 else "S"
+    mbti_type += "F" if scores["tf"] >= 50 else "T"
+    mbti_type += "P" if scores["jp"] >= 50 else "J"
     
     # Calculate preference strengths (as percentages)
-    ei_strength = abs(scores["ei"]) * 10
-    sn_strength = abs(scores["sn"]) * 10
-    tf_strength = abs(scores["tf"]) * 10
-    jp_strength = abs(scores["jp"]) * 10
+    ei_strength = abs(scores["ei"]) 
+    sn_strength = abs(scores["sn"]) 
+    tf_strength = abs(scores["tf"]) 
+    jp_strength = abs(scores["jp"]) 
     
     return f"{mbti_type} with:\n" + \
-           f"- {ei_strength}% preference for {'Extraversion' if scores['ei'] > 0 else 'Introversion'}\n" + \
-           f"- {sn_strength}% preference for {'Intuition' if scores['sn'] > 0 else 'Sensing'}\n" + \
-           f"- {tf_strength}% preference for {'Feeling' if scores['tf'] > 0 else 'Thinking'}\n" + \
-           f"- {jp_strength}% preference for {'Perceiving' if scores['jp'] > 0 else 'Judging'}"
+           f"- {ei_strength}% preference for {'Extraversion' if scores['ei'] >= 50 else 'Introversion'}\n" + \
+           f"- {sn_strength}% preference for {'Intuition' if scores['sn'] >= 50 else 'Sensing'}\n" + \
+           f"- {tf_strength}% preference for {'Feeling' if scores['tf'] >= 50 else 'Thinking'}\n" + \
+           f"- {jp_strength}% preference for {'Perceiving' if scores['jp'] >= 50 else 'Judging'}"
 
 
 def get_mbti_description(scores):
     """Get a detailed description of the MBTI type"""
     mbti_type = ""
-    mbti_type += "E" if scores["ei"] > 0 else "I"
-    mbti_type += "N" if scores["sn"] > 0 else "S"
-    mbti_type += "F" if scores["tf"] > 0 else "T"
-    mbti_type += "P" if scores["jp"] > 0 else "J"
+    mbti_type += "E" if scores["ei"] >= 50 else "I"
+    mbti_type += "N" if scores["sn"] >= 50 else "S"
+    mbti_type += "F" if scores["tf"] >= 50 else "T"
+    mbti_type += "P" if scores["jp"] >= 50 else "J"
     
     descriptions = {
         "INTJ": "Strategic, independent thinkers who excel at developing innovative solutions to analytical problems.",
@@ -125,6 +145,46 @@ def get_mbti_description(scores):
     
     return descriptions.get(mbti_type, "Unique personality type with a blend of different preferences.")
 
+
+def format_goals_and_interests(goals_data):
+    """Format goals and interests data for the prompt"""
+    if not goals_data:
+        return "No specific goals or interests provided."
+    
+    result = ""
+    
+    # Handle goals
+    if goals_data.get("knowsGoals", False):
+        goal_type_mapping = {
+            "industry": "Industry Professional",
+            "academia": "Research & Academia",
+            "entrepreneurship": "Entrepreneurship",
+            "creative": "Creative Arts",
+            "other": "Other Path"
+        }
+        
+        goal_type = goal_type_mapping.get(goals_data.get("goalType", ""), "Not specified")
+        
+        result += f"Career Direction: {goal_type}\n"
+        if goals_data.get("goals"):
+            result += f"Personal Goals: {goals_data.get('goals')}\n"
+    else:
+        result += "Career Direction: Not yet determined\n"
+    
+    # Handle interests
+    if goals_data.get("interests"):
+        interests = [i.strip() for i in goals_data.get("interests", "").split(",") if i.strip()]
+        if interests:
+            result += f"Interests & Passions: {', '.join(interests)}\n"
+    
+    # Handle skills
+    if goals_data.get("skills"):
+        skills = [s.strip() for s in goals_data.get("skills", "").split(",") if s.strip()]
+        if skills:
+            result += f"Natural Talents: {', '.join(skills)}\n"
+    
+    return result
+
 # ============================================================
 # Core Logic (Independent of FastAPI)
 # ============================================================
@@ -137,6 +197,16 @@ async def analyze_student_profile() -> List[Dict[str, Any]]:
     """
     # Get the state store
     store = StateStore.get_instance()
+    
+    # Print debug information
+    print(f"DEBUG: Student name: {store.name}")
+    print(f"DEBUG: College: {store.college}")
+    print(f"DEBUG: Major: {store.major}")
+    print(f"DEBUG: Grade: {store.grade}")
+    
+    # Check if basic info is missing - we shouldn't proceed without it
+    if not store.name or not store.college or not store.major:
+        raise ValueError("Basic student information is missing. Please complete the profile first.")
     
     # Check for API key
     api_key = os.getenv("ANTHROPIC_API_KEY")
@@ -151,7 +221,10 @@ async def analyze_student_profile() -> List[Dict[str, Any]]:
     mbti_formatted = format_mbti(store.mbti_scores)
     mbti_description = get_mbti_description(store.mbti_scores)
     
-    # Create prompt for Claude
+    # Format goals and interests
+    goals_interests_formatted = format_goals_and_interests(getattr(store, "goals_and_interests", {}))
+    
+    # Create prompt for Claude with explicit major info
     prompt = f"""
     I need detailed career recommendations with specific reasoning for a student with the following profile:
     
@@ -165,11 +238,17 @@ async def analyze_student_profile() -> List[Dict[str, Any]]:
     
     Personal priorities: {", ".join(store.priorities)}
     
+    Goals and Interests:
+    {goals_interests_formatted}
+    
     Here's some information about the degree program and resources at their college:
     
     {store.web_search_results}
     
     Please analyze this profile deeply and recommend 4-5 specific career paths that would be excellent matches.
+    The student is majoring in {store.major} at {store.college}, so make sure to consider this
+    academic background in your recommendations.
+    
     For each career recommendation:
     
     1. Provide a match score from 0-100
@@ -177,7 +256,8 @@ async def analyze_student_profile() -> List[Dict[str, Any]]:
     3. Consider alignment with:
        - Their MBTI personality traits
        - Their stated priorities
-       - Their college major
+       - Their college major ({store.major})
+       - Their goals, interests, and natural talents
        - Available resources and strengths of their specific college
        - Current and future job market prospects
     
@@ -201,8 +281,12 @@ async def analyze_student_profile() -> List[Dict[str, Any]]:
       ]
     }}
     
+    IMPORTANT: The student's major is {store.major}, so make sure your recommendations align with this academic background.
     Ensure your reasoning is detailed, specific to this student, and shows deep analytical thinking about career fit.
     """
+    
+    # Print the prompt for debugging
+    print(f"DEBUG: Prompt includes major: {store.major}")
     
     # Call Claude
     response = client.messages.create(
@@ -289,6 +373,75 @@ async def get_career_reasoning() -> Dict[str, Any]:
         # Handle unexpected errors
         raise HTTPException(status_code=500, detail=f"Error generating career reasoning: {str(e)}")
 
+def interpret_mbti(scores: Dict[str, int]) -> Dict[str, str]:
+    return {
+        "ei": "Extraverted" if scores["ei"] >= 50 else "Introverted",
+        "sn": "Intuitive"   if scores["sn"] >= 50 else "Sensing",
+        "tf": "Thinking"    if scores["tf"] >= 50 else "Feeling",
+        "jp": "Perceiving"  if scores["jp"] >= 50 else "Judging",
+    }
+
+
+# ============================================================
+# Initialize Test Data
+# ============================================================
+def initialize_test_data():
+    """Initialize state store with test data for standalone testing"""
+    store = StateStore.get_instance()
+    
+    # Ensure the store has basic info
+    if not store.name or not store.college or not store.major:
+        # These values are used only for testing
+        store.update_basic_info(
+            name="Alex Johnson",
+            college="Stanford University",
+            major="Computer Science",
+            grade="Junior",
+            gender="Non-binary"
+        )
+    
+    # Ensure the store has MBTI scores
+    if not store.mbti_scores or all(v == 50 for v in store.mbti_scores.values()):
+        store.mbti_scores = {
+            "ei": 65,   # Extraverted
+            "sn": 40,   # Sensing
+            "tf": 80,   # Thinking
+            "jp": 30    # Judging
+        }
+    
+    # Ensure the store has priorities
+    if not store.priorities:
+        store.priorities = [
+            "Work-life balance",
+            "Creative problem-solving",
+            "High income potential",
+            "Remote work options"
+        ]
+    
+    # Ensure the store has web search results
+    if not store.web_search_results:
+        store.web_search_results = """
+        Stanford University's Computer Science program is one of the top-ranked in the world.
+        The program offers a comprehensive curriculum covering areas such as artificial intelligence,
+        systems, theory, and human-computer interaction. Stanford has strong connections to Silicon Valley
+        and offers numerous internship opportunities, entrepreneurship programs, and research positions.
+        The university has state-of-the-art facilities and labs, and students have access to leading
+        professors and researchers in the field.
+        """
+    
+    # Ensure the store has goals and interests
+    if not hasattr(store, 'goals_and_interests') or not store.goals_and_interests:
+        store.goals_and_interests = {
+            "knowsGoals": True,
+            "goalType": "industry",
+            "goals": "I want to become a tech leader who makes a positive impact through innovation.",
+            "interests": "AI, Machine Learning, Photography, Hiking",
+            "skills": "Problem Solving, Communication, Programming"
+        }
+    
+    print("Test data initialized successfully")
+    return store
+
 # ============================================================
 # Standalone Test Function
 # ============================================================
@@ -297,6 +450,13 @@ async def test_reasoning_agent():
     Test function that can be run directly
     """
     print("\n=== Testing Reasoning Agent ===")
+    
+    # Initialize test data first
+    store = initialize_test_data()
+    print(f"Profile info: {store.name} at {store.college}, studying {store.major}")
+    print("MBTI raw scores:", store.mbti_scores)
+    print("MBTI interpreted traits:", interpret_mbti(store.mbti_scores))
+
     
     try:
         # Generate career recommendations
