@@ -8,16 +8,16 @@ import './styles/anthropicGradient.css'; // Import our Anthropic gradient styles
 
 // Define colors outside the theme to avoid the "used before defined" error
 const brandColors = [
-  '#f0f4ff', // lightest
-  '#d9e2ff',
-  '#bac9ff',
-  '#95a8ff',
-  '#7988f8',
-  '#5e6ad2', // primary
-  '#4a52a8',
-  '#363c7e',
-  '#252856',
-  '#16172e'  // darkest
+  '#fff9f0', // lightest cream
+  '#fff4e5',
+  '#ffe9cc',
+  '#ffdca3',
+  '#ffc875',
+  '#ffb347', // primary orange
+  '#e69a3e',
+  '#cc8235',
+  '#b36b2c',
+  '#995423'  // darkest orange
 ];
 
 // Claude-inspired theme
@@ -40,23 +40,28 @@ const theme = {
   // Global styles
   styles: {
     body: (currentTheme) => ({
-      backgroundColor: currentTheme.colorScheme === 'dark' ? currentTheme.colors.dark[8] : '#fafafa',
-      color: currentTheme.colorScheme === 'dark' ? currentTheme.colors.gray[0] : currentTheme.colors.gray[9],
+      backgroundColor: currentTheme.colorScheme === 'dark' ? currentTheme.colors.dark[8] : '#fff9f0',
+      color: currentTheme.colorScheme === 'dark' ? currentTheme.colors.gray[0] : '#2c1810',
     }),
     Title: {
       root: {
         fontWeight: 600,
+        color: '#2c1810',
       }
     },
     Button: {
       root: {
         fontWeight: 500,
+        '&:hover': {
+          transform: 'translateY(-1px)',
+        }
       }
     },
     Paper: {
       root: {
         backgroundColor: (currentTheme) =>
-          currentTheme.colorScheme === 'dark' ? currentTheme.colors.dark[7] : '#ffffff',
+          currentTheme.colorScheme === 'dark' ? currentTheme.colors.dark[7] : '#fff',
+        borderColor: 'rgba(255, 179, 71, 0.2)',
       }
     }
   },
@@ -66,12 +71,49 @@ const theme = {
     Button: {
       defaultProps: {
         radius: 'md',
-      }
+      },
+      styles: (theme) => ({
+        root: {
+          '&[data-variant="filled"]': {
+            backgroundColor: theme.colors.brand[5],
+            '&:hover': {
+              backgroundColor: theme.colors.brand[6],
+            }
+          }
+        }
+      })
     },
     Paper: {
       defaultProps: {
         shadow: 'sm',
       }
+    },
+    TextInput: {
+      styles: (theme) => ({
+        input: {
+          '&:focus': {
+            borderColor: theme.colors.brand[5],
+          }
+        }
+      })
+    },
+    Select: {
+      styles: (theme) => ({
+        input: {
+          '&:focus': {
+            borderColor: theme.colors.brand[5],
+          }
+        }
+      })
+    },
+    Textarea: {
+      styles: (theme) => ({
+        input: {
+          '&:focus': {
+            borderColor: theme.colors.brand[5],
+          }
+        }
+      })
     }
   }
 };

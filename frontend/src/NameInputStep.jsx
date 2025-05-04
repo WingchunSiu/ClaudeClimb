@@ -1,4 +1,5 @@
-import { Stack, TextInput, Button, Title } from '@mantine/core';
+import { Stack, TextInput, Button, Title, Text, Box } from '@mantine/core';
+import { IconArrowRight } from '@tabler/icons-react';
 
 function NameInputStep({ formData, onChange, onNext }) {
   const handleNameChange = (event) => {
@@ -6,30 +7,56 @@ function NameInputStep({ formData, onChange, onNext }) {
   };
 
   const handleNext = (e) => {
-    e.preventDefault(); // Prevent default form submission if wrapped in form
-    if (formData.name.trim()) { // Basic validation: ensure name is not empty
-        onNext();
+    e.preventDefault();
+    if (formData.name.trim()) {
+      onNext();
     } else {
-        // Optional: Add error feedback using Mantine's TextInput error prop
-        console.log("Name is required");
+      console.log("Name is required");
     }
   };
 
   return (
-    <Stack align="center" spacing="lg">
-      <Title order={2} align="center">Welcome! Let's start with your name.</Title>
-      <form onSubmit={handleNext} style={{ width: '100%' }}>
+    <Stack align="center" spacing="xl">
+      <Box style={{ textAlign: 'center' }}>
+        <Title order={2} align="center" mb="md" style={{ letterSpacing: '-0.02em' }}>
+          Welcome to Your Journey
+        </Title>
+        <Text color="dimmed" size="lg" mb="xl">
+          Let's start by getting to know each other. What should I call you?
+        </Text>
+      </Box>
+      
+      <form onSubmit={handleNext} style={{ width: '100%', maxWidth: '400px' }}>
         <TextInput          
           placeholder="Enter your name"
           required
           value={formData.name}
           onChange={handleNameChange}
           size="lg"
-          // Optional: Add error display logic here
-          autoFocus // Focus the input when the step loads
+          autoFocus
+          styles={{
+            input: {
+              height: '56px',
+              fontSize: '1.1rem',
+              textAlign: 'center',
+              '&::placeholder': {
+                textAlign: 'center'
+              }
+            }
+          }}
         />
-        <Button type="submit" size="md" mt="xl" fullWidth>
-          Next
+        <Button 
+          type="submit" 
+          size="lg" 
+          mt="xl" 
+          fullWidth
+          rightIcon={<IconArrowRight size={16} />}
+          style={{
+            height: '48px',
+            fontSize: '1.1rem'
+          }}
+        >
+          Begin Journey
         </Button>
       </form>
     </Stack>

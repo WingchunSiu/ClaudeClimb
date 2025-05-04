@@ -11,8 +11,10 @@ import {
   Box,
   CloseButton,
   Select,
-  useMantineTheme
+  useMantineTheme,
+  Paper
 } from '@mantine/core';
+import { IconPlus, IconSparkles } from '@tabler/icons-react';
 
 function GoalsAndInterestsForm({ data, onChange, onKnowsGoalsChange }) {
   const theme = useMantineTheme();
@@ -33,28 +35,47 @@ function GoalsAndInterestsForm({ data, onChange, onKnowsGoalsChange }) {
     onKnowsGoalsChange(event.currentTarget.checked);
   };
   
-  // Goal type options for dropdown with color styling
+  // Goal type options with more engaging descriptions
   const goalTypeOptions = [
-    { value: 'industry', label: 'Industry', color: theme.colors.blue[6] },
-    { value: 'academia', label: 'Research/Academia', color: theme.colors.violet[6] },
-    { value: 'entrepreneurship', label: 'Entrepreneurship', color: theme.colors.orange[6] },
-    { value: 'creative', label: 'Creative', color: theme.colors.green[6] },
-    { value: 'other', label: 'Other', color: theme.colors.gray[6] },
+    { 
+      value: 'industry', 
+      label: 'Industry Professional',
+      description: 'Building a career in the corporate world',
+      color: '#ffb347' 
+    },
+    { 
+      value: 'academia', 
+      label: 'Research & Academia',
+      description: 'Pursuing knowledge and discovery',
+      color: '#ffb347' 
+    },
+    { 
+      value: 'entrepreneurship', 
+      label: 'Entrepreneurship',
+      description: 'Creating and building your own ventures',
+      color: '#ffb347' 
+    },
+    { 
+      value: 'creative', 
+      label: 'Creative Arts',
+      description: 'Expressing through art, design, or media',
+      color: '#ffb347' 
+    },
+    { 
+      value: 'other', 
+      label: 'Other Path',
+      description: 'Following a unique journey',
+      color: '#ffb347' 
+    },
   ];
 
   // Interest items management
   const addInterestItem = () => {
     if (newInterestItem.trim() === '') return;
     
-    // Create updated lists
     const updatedItems = [...interestItems, newInterestItem.trim()];
-    
-    // Update the parent component state
-    // We'll store the combined interests in the 'interests' field
     onChange('interests', updatedItems.join(', '));
-    onChange('hobbies', ''); // Clear hobbies as we're now using just interests
-    
-    // Clear the input field
+    onChange('hobbies', '');
     setNewInterestItem('');
   };
 
@@ -74,13 +95,8 @@ function GoalsAndInterestsForm({ data, onChange, onKnowsGoalsChange }) {
   const addSkillItem = () => {
     if (newSkillItem.trim() === '') return;
     
-    // Create updated lists
     const updatedItems = [...skillItems, newSkillItem.trim()];
-    
-    // Update the parent component state
     onChange('skills', updatedItems.join(', '));
-    
-    // Clear the input field
     setNewSkillItem('');
   };
 
@@ -96,91 +112,125 @@ function GoalsAndInterestsForm({ data, onChange, onKnowsGoalsChange }) {
     }
   };
   
-  // Reusable tag component
+  // Reusable tag component with modern styling
   const TagItem = ({ item, onRemove }) => (
-    <Box 
+    <Paper 
       px="xs"
       py={5}
+      data-tag="true"
       style={{
-        backgroundColor: '#f1f3f5',
-        borderRadius: '4px',
+        backgroundColor: 'rgba(255, 179, 71, 0.08)',
+        borderRadius: '8px',
         display: 'flex',
         alignItems: 'center',
-        fontSize: '14px'
+        fontSize: '14px',
+        border: '1px solid rgba(255, 179, 71, 0.2)',
+        transition: 'all 0.2s ease'
       }}
     >
-      <Text mr="xs">{item}</Text>
+      <Text mr="xs" fw={500} color="#2c1810">{item}</Text>
       <CloseButton 
         size="xs" 
         onClick={onRemove}
-        style={{ width: '16px', height: '16px' }}
+        style={{ 
+          width: '16px', 
+          height: '16px',
+          color: '#ffb347'
+        }}
       />
-    </Box>
+    </Paper>
   );
 
   return (
-    <Stack>            
-      <Checkbox
-        label="I know my specific career goals"
-        checked={data.knowsGoals}
-        onChange={handleCheckboxChange}
-        mb="xs"
-      />
-      
-      {data.knowsGoals && (
-        <>
-          <Select
-            label="What type of career are you pursuing?"
-            placeholder="Select a career type"
-            data={goalTypeOptions}
-            value={data.goalType}
-            onChange={(value) => onChange('goalType', value)}
-            mb="md"
-            styles={(theme) => ({
-              item: {
-                '&[data-selected]': {
-                  '&, &:hover': {
-                    backgroundColor: 
-                      goalTypeOptions.find(option => option.value === data.goalType)?.color || 
-                      theme.colors.brand[6],
-                    color: theme.white,
+    <Stack spacing="xl">            
+      <Box>
+        <Checkbox
+          label={
+            <Text fw={500} size="lg" color="#2c1810">
+              I have a clear vision for my future path
+            </Text>
+          }
+          checked={data.knowsGoals}
+          onChange={handleCheckboxChange}
+          mb="md"
+        />
+        
+        {data.knowsGoals && (
+          <Box mt="md">
+            <Select
+              label="What kind of journey interests you?"
+              placeholder="Select your path"
+              data={goalTypeOptions}
+              value={data.goalType}
+              onChange={(value) => onChange('goalType', value)}
+              mb="md"
+              size="lg"
+              styles={(theme) => ({
+                input: {
+                  height: '56px',
+                  fontSize: '1.1rem',
+                  color: '#2c1810'
+                },
+                label: {
+                  fontSize: '1rem',
+                  marginBottom: '0.5rem',
+                  color: '#2c1810'
+                },
+                item: {
+                  padding: '12px',
+                  '&[data-selected]': {
+                    '&, &:hover': {
+                      backgroundColor: '#ffb347',
+                      color: '#fff',
+                    },
                   },
                 },
-              },
-              input: {
-                color: goalTypeOptions.find(option => option.value === data.goalType)?.color || 
-                        theme.black,
-                fontWeight: data.goalType ? 500 : 400,
-              }
-            })}
-            itemComponent={({ label, value }) => {
-              const option = goalTypeOptions.find(opt => opt.value === value);
-              return (
-                <div>
-                  <Text style={{ color: option?.color }}>{label}</Text>
-                </div>
-              );
-            }}
-          />
-          
-          <Textarea
-            label="Career Goals"
-            placeholder="Describe your ideal career path, target roles, or industries..."
-            value={data.goals}
-            onChange={(event) => onChange('goals', event.currentTarget.value)}
-            minRows={3}
-          />
-        </>
-      )}
+              })}
+              itemComponent={({ label, value }) => {
+                const option = goalTypeOptions.find(opt => opt.value === value);
+                return (
+                  <Box>
+                    <Text fw={500} style={{ color: option?.color }}>{label}</Text>
+                    <Text size="sm" color="dimmed">{option?.description}</Text>
+                  </Box>
+                );
+              }}
+            />
+            
+            <Textarea
+              label="Tell me about your dreams and aspirations"
+              placeholder="What kind of impact do you want to make? What drives you? What are your goals?"
+              value={data.goals}
+              onChange={(event) => onChange('goals', event.currentTarget.value)}
+              minRows={4}
+              size="lg"
+              styles={{
+                input: {
+                  fontSize: '1.1rem',
+                  color: '#2c1810'
+                },
+                label: {
+                  fontSize: '1rem',
+                  marginBottom: '0.5rem',
+                  color: '#2c1810'
+                }
+              }}
+            />
+          </Box>
+        )}
+      </Box>
 
-      <Box mt="md">
-        <Text fw={500} size="sm" mb={5}>Hobbies & Interests</Text>
-        <Text size="xs" color="dimmed" mb="xs">
-          What makes you so immersed that you lose track of time?
+      <Box>
+        <Group position="apart" mb="xs">
+          <Text fw={600} size="lg" color="#2c1810">Passions & Interests</Text>
+          <IconSparkles size={20} color="#ffb347" />
+        </Group>
+        <Text size="sm" color="dimmed" mb="md">
+          What activities make you lose track of time? What topics could you talk about for hours?
         </Text>
         
         {/* Display entered interest items as tags */}
-        <Box mb="xs">
+        <Box mb="md">
           {interestItems.length > 0 ? (
             <Group spacing="xs">
               {interestItems.map((item, index) => (
@@ -193,49 +243,50 @@ function GoalsAndInterestsForm({ data, onChange, onKnowsGoalsChange }) {
             </Group>
           ) : (
             <Text color="dimmed" size="sm" mb="xs">
-              No hobbies or interests added yet
+              No interests added yet
             </Text>
           )}
         </Box>
         
-        {/* Input for new interest items - FIXED ALIGNMENT */}
+        {/* Input for new interest items */}
         <div style={{ display: 'flex', marginBottom: '1rem' }}>
           <TextInput
-            placeholder="Reading, painting, technology, travel..."
+            placeholder="e.g., Photography, AI, Travel, Music..."
             value={newInterestItem}
             onChange={(e) => setNewInterestItem(e.currentTarget.value)}
             onKeyPress={handleInterestKeyPress}
             style={{ flexGrow: 1, marginRight: '0.5rem' }}
-            size="md"
+            size="lg"
             styles={{
               input: {
-                height: '42px', // Match the height of the button
-                lineHeight: '42px'
+                height: '48px',
+                fontSize: '1.1rem',
+                color: '#2c1810'
               }
             }}
           />
           <Button 
             onClick={addInterestItem} 
             color="brand"
-            style={{ 
-              minWidth: '80px',
-              height: '42px'
-            }}
-            size="md"
+            leftIcon={<IconPlus size={16} />}
+            size="lg"
           >
             Add
           </Button>
         </div>
       </Box>
       
-      <Box mt="md">
-        <Text fw={500} size="sm" mb={5}>Skills & Strengths</Text>
-        <Text size="xs" color="dimmed" mb="xs">
-          What are you good at, but not necessarily enjoy?
+      <Box>
+        <Group position="apart" mb="xs">
+          <Text fw={600} size="lg" color="#2c1810">Natural Talents</Text>
+          <IconSparkles size={20} color="#ffb347" />
+        </Group>
+        <Text size="sm" color="dimmed" mb="md">
+          What comes naturally to you? What do others often compliment you on?
         </Text>
         
         {/* Display entered skill items as tags */}
-        <Box mb="xs">
+        <Box mb="md">
           {skillItems.length > 0 ? (
             <Group spacing="xs">
               {skillItems.map((item, index) => (
@@ -248,35 +299,33 @@ function GoalsAndInterestsForm({ data, onChange, onKnowsGoalsChange }) {
             </Group>
           ) : (
             <Text color="dimmed" size="sm" mb="xs">
-              No skills or strengths added yet
+              No talents added yet
             </Text>
           )}
         </Box>
         
-        {/* Input for new skill items - FIXED ALIGNMENT */}
+        {/* Input for new skill items */}
         <div style={{ display: 'flex', marginBottom: '1rem' }}>
           <TextInput
-            placeholder="Leadership, problem-solving, programming..."
+            placeholder="e.g., Problem Solving, Communication, Creativity..."
             value={newSkillItem}
             onChange={(e) => setNewSkillItem(e.currentTarget.value)}
             onKeyPress={handleSkillKeyPress}
             style={{ flexGrow: 1, marginRight: '0.5rem' }}
-            size="md"
+            size="lg"
             styles={{
               input: {
-                height: '42px', // Match the height of the button
-                lineHeight: '42px'
+                height: '48px',
+                fontSize: '1.1rem',
+                color: '#2c1810'
               }
             }}
           />
           <Button 
             onClick={addSkillItem} 
             color="brand"
-            style={{ 
-              minWidth: '80px',
-              height: '42px'
-            }}
-            size="md"
+            leftIcon={<IconPlus size={16} />}
+            size="lg"
           >
             Add
           </Button>
