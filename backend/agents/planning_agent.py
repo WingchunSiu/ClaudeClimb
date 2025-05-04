@@ -235,7 +235,7 @@ async def generate_career_plan(selected_career: str) -> Dict[str, Any]:
     
     # Initialize Anthropic client
     client = Anthropic(api_key=api_key)
-    model = os.getenv("ANTHROPIC_MODEL", "claude-3-sonnet-20240229")
+    model = os.getenv("ANTHROPIC_MODEL", "claude-3-7-sonnet-20250219")
     
     # Format MBTI type
     mbti_formatted = format_mbti(store.mbti_scores)
@@ -281,6 +281,7 @@ async def generate_career_plan(selected_career: str) -> Dict[str, Any]:
     4. Skills they should develop
     5. Networking opportunities and connections to make
     6. Resources available at {store.college} they should utilize
+    7. How to relax and have fun considering {store.college}'s location/culture and {store.name}'s interests
     
     Make the plan specific to their current situation - they're a {academic_year} student, so focus on what they can do now and in their remaining time at college.
     
@@ -324,8 +325,8 @@ async def generate_career_plan(selected_career: str) -> Dict[str, Any]:
     # Call Claude
     response = client.messages.create(
         model=model,
-        max_tokens=4000,
-        temperature=0.7,
+        max_tokens=5000,
+        temperature=0,
         messages=[{"role": "user", "content": prompt}]
     )
     
@@ -438,12 +439,80 @@ def initialize_test_data():
     # Ensure the store has web search results
     if not store.web_search_results:
         store.web_search_results = """
-        Stanford University's Computer Science program is one of the top-ranked in the world.
-        The program offers a comprehensive curriculum covering areas such as artificial intelligence,
-        systems, theory, and human-computer interaction. Stanford has strong connections to Silicon Valley
-        and offers numerous internship opportunities, entrepreneurship programs, and research positions.
-        The university has state-of-the-art facilities and labs, and students have access to leading
-        professors and researchers in the field.
+        # Computer Science at Stanford University: Academic Pathways & Resources
+
+## Degree Requirements
+
+### Core Requirements
+Stanford's CS program (within the School of Engineering) requires:
+
+- **Math**: CS 103, CS 109, MATH 51
+- **Science**: 11 units (PHYSICS 41, 43 common choices)
+- **Technology in Society**: CS 182, CS 181, CS 182W
+- **Engineering Fundamentals**: CS 106B or 106X
+- **Writing**: PWR 1 and PWR 2, plus a Writing in the Major course
+
+### CS Core (26 units)
+- CS 103: Mathematical Foundations of Computing
+- CS 107: Computer Organization & Systems
+- CS 109: Probability for Computer Scientists
+- CS 110: Principles of Computer Systems
+- CS 111: Operating Systems Principles
+- CS 161: Design and Analysis of Algorithms
+
+### Track Requirements
+You must complete one of these specialization tracks (20+ units):
+
+- Artificial Intelligence
+- Biocomputation
+- Computer Engineering
+- Graphics
+- Human-Computer Interaction
+- Information
+- Systems
+- Theory
+- Unspecialized
+
+Each track has specific required and elective courses. For example, the AI track requires CS 221 (Artificial Intelligence) plus electives from areas like machine learning and robotics.
+
+## Academic Resources
+
+- **CS Department Advising**: Assigned faculty advisors plus peer advisors
+- **Gates Computer Science Building**: Main hub for CS resources
+- **Office Hours**: Most CS courses offer extensive TA and professor office hours
+- **LaIR (Learning And Interactive Resources)**: Drop-in tutoring for introductory CS courses
+- **SUMO (Stanford Undergraduate Mathematical Organization)**: Peer tutoring for math courses
+- **Academic Skills Coaching**: Through the Center for Teaching and Learning
+
+## Career Services & Internships
+
+- **Handshake**: Stanford's job and internship portal
+- **BEAM (Bridging Education, Ambition & Meaningful Work)**: Career counseling, resume reviews, interview prep
+- **CS-specific career fairs**: Held multiple times annually
+- **Company Info Sessions**: Regular recruiting events on campus
+- **CS198 Program**: Teaching assistant opportunities for undergraduates
+- **CURIS (Computer Research Internship for Undergraduates)**: Summer research program
+
+## Notable CS Faculty
+
+- **Fei-Fei Li**: AI and computer vision pioneer, co-director of Stanford HAI
+- **John Hennessy**: Former Stanford president, computer architecture expert
+- **Dan Boneh**: Cryptography and computer security expert
+- **Daphne Koller**: Probabilistic modeling and machine learning
+- **Andrew Ng**: Machine learning and AI pioneer
+- **Jennifer Widom**: Database systems and data management
+
+## Specialized Facilities & Centers
+
+- **Stanford Artificial Intelligence Laboratory (SAIL)**
+- **Stanford Human-Computer Interaction Group**
+- **Stanford SystemX Alliance**: Hardware/software systems research
+- **Stanford Institute for Human-Centered AI (HAI)**
+- **Stanford Computer Graphics Laboratory**
+- **Center for Blockchain Research**
+- **Stanford Robotics Laboratory**
+
+For the most current and detailed information, I recommend consulting your official CS department advisor and the Stanford Computer Science website.
         """
     
     # Ensure the store has goals and interests
@@ -466,24 +535,24 @@ def initialize_test_data():
             "recommendations": [
                 {
                     "career": "Software Engineer",
-                    "score": 95,
-                    "description": "Designs, develops, and maintains software applications and systems.",
+                    "score": 90,
+                    "description": "Designing, developing, and maintaining software applications and systems.",
                     "reasons": [
                         {
-                            "strength": "Alignment with technical background",
-                            "explanation": "Your Computer Science major at Stanford provides the perfect foundation for software engineering, with courses in algorithms, data structures, and programming languages giving you essential technical skills."
+                        "strength": "Strong match with Computer Science degree",
+                        "explanation": "Alex's Computer Science degree from Stanford University provides the technical skills and knowledge required to excel as a software engineer. The program's comprehensive curriculum in areas like artificial intelligence, systems, and theory aligns well with the core responsibilities of a software engineer."
                         },
                         {
-                            "strength": "Matches personality traits",
-                            "explanation": "Your ENTP personality combines creative problem-solving with logical thinking, ideal for software engineering roles where innovation and analytical skills are equally valued."
+                        "strength": "Alignment with MBTI personality traits",
+                        "explanation": "As an ESFJ, Alex is likely to thrive in a role that involves tangible problem-solving, collaboration, and helping others. Software engineering often requires working with cross-functional teams to develop user-friendly applications, which plays to Alex's strengths in terms of being warm, conscientious, and focused on creating positive outcomes."
                         },
                         {
-                            "strength": "Fits stated priorities",
-                            "explanation": "Software engineering offers excellent work-life balance with flexible and remote options, creative problem-solving opportunities, and high income potential, all matching your top priorities."
+                        "strength": "Opportunity for creativity and high income potential",
+                        "explanation": "Software engineering offers a balance of creative problem-solving and high earning potential, which aligns with Alex's stated priorities. The field allows for innovative thinking and the development of novel solutions, while also providing strong job prospects and competitive salaries, especially at leading tech companies in Silicon Valley."
                         },
                         {
-                            "strength": "Aligns with personal interests",
-                            "explanation": "Your interest in AI and machine learning aligns perfectly with emerging areas in software engineering, allowing you to combine your technical skills with your passion for these cutting-edge technologies."
+                        "strength": "Availability of internships and career support",
+                        "explanation": "Stanford University's strong connections to Silicon Valley and its robust internship program provide Alex with ample opportunities to gain relevant experience and build a professional network in the software engineering field. The university's state-of-the-art facilities and access to leading experts in computer science further enhance Alex's ability to develop the necessary skills and knowledge to succeed as a software engineer."
                         }
                     ]
                 }

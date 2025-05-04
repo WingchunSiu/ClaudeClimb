@@ -86,14 +86,16 @@ async def perform_web_search(college: str, major: str) -> str:
     
     # Initialize Anthropic client
     client = Anthropic(api_key=api_key)
-    model = os.getenv("ANTHROPIC_MODEL", "claude-3-haiku-20240307")
+    model = os.getenv("ANTHROPIC_MODEL", "claude-3-7-sonnet-20250219")
     
     # Create prompt for Claude
     prompt = f"""
     I'm a student at {college} studying {major}.
     Can you search the web for information about:
     
-    1. The degree requirements for my major at my specific college
+    1. The degree requirements for my major at my specific college, including
+       core courses plan, electives, and any specializations 
+       available(include class code).
     2. Available academic resources, such as tutoring, advising, or study groups
     3. Career services and internship opportunities related to my major
     4. Notable professors or researchers in my field at this institution
@@ -106,7 +108,7 @@ async def perform_web_search(college: str, major: str) -> str:
     # Call Claude
     response = client.messages.create(
         model=model,
-        max_tokens=1000,
+        max_tokens= 4000,
         temperature=0.7,
         messages=[{"role": "user", "content": prompt}]
     )

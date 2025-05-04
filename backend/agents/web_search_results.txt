@@ -1,31 +1,74 @@
-Certainly! Here's a summary of the information I was able to find for you as a Computer Science student at Stanford University:
+# Computer Science at Stanford University: Academic Pathways & Resources
 
-1. Degree Requirements for Computer Science Major:
-   - The Computer Science major at Stanford requires a total of 180 units to graduate.
-   - The core curriculum includes courses in algorithms, programming, computer systems, and mathematical foundations.
-   - Students must also complete a capstone project or thesis in their senior year.
-   - Detailed degree requirements can be found on the Stanford Computer Science department website.
+## Degree Requirements
 
-2. Academic Resources:
-   - Stanford offers free peer tutoring through the Hume Center for Writing and Speaking.
-   - The Computer Science Undergraduate Advising office provides academic advising and guidance on course selection.
-   - There are several active student organizations, such as the Computer Science Student Association, that organize study groups and social events.
-   - The university also has a robust network of teaching assistants and office hours to support students in their coursework.
+### Core Requirements
+Stanford's CS program (within the School of Engineering) requires:
 
-3. Career Services and Internships:
-   - Stanford's Career Education office hosts regular career fairs and workshops focused on tech and engineering careers.
-   - The department has dedicated career advisors who can help students explore internship and job opportunities.
-   - Many leading tech companies recruit heavily from Stanford, offering a variety of internships and full-time roles.
-   - The university also has strong relationships with Silicon Valley startups and provides resources for students interested in entrepreneurship.
+- **Math**: CS 103, CS 109, MATH 51
+- **Science**: 11 units (PHYSICS 41, 43 common choices)
+- **Technology in Society**: CS 182, CS 181, CS 182W
+- **Engineering Fundamentals**: CS 106B or 106X
+- **Writing**: PWR 1 and PWR 2, plus a Writing in the Major course
 
-4. Notable Professors and Researchers:
-   - Stanford's Computer Science department is home to several renowned professors, including John Hennessy (former university president), Daphne Koller, and Andrew Ng.
-   - These faculty members have made significant contributions to fields like artificial intelligence, computer architecture, and machine learning.
-   - Many professors also lead research labs and centers that provide opportunities for student involvement and collaboration.
+### CS Core (26 units)
+- CS 103: Mathematical Foundations of Computing
+- CS 107: Computer Organization & Systems
+- CS 109: Probability for Computer Scientists
+- CS 110: Principles of Computer Systems
+- CS 111: Operating Systems Principles
+- CS 161: Design and Analysis of Algorithms
 
-5. Specialized Facilities and Centers:
-   - The Gates Computer Science Building houses state-of-the-art teaching and research labs, including the AI Lab and the Center for Artificial Intelligence in Medicine & Imaging.
-   - Stanford also has the Stanford Artificial Intelligence Laboratory (SAIL), which conducts cutting-edge research in areas like natural language processing and robotics.
-   - The university's interdisciplinary institutes, such as the Stanford Institute for Human-Centered Artificial Intelligence, bring together researchers from various fields to tackle complex problems.
+### Track Requirements
+You must complete one of these specialization tracks (20+ units):
 
-I hope this summary provides a helpful overview of the academic resources and opportunities available to you as a Computer Science student at Stanford University. Let me know if you have any other questions!
+- Artificial Intelligence
+- Biocomputation
+- Computer Engineering
+- Graphics
+- Human-Computer Interaction
+- Information
+- Systems
+- Theory
+- Unspecialized
+
+Each track has specific required and elective courses. For example, the AI track requires CS 221 (Artificial Intelligence) plus electives from areas like machine learning and robotics.
+
+## Academic Resources
+
+- **CS Department Advising**: Assigned faculty advisors plus peer advisors
+- **Gates Computer Science Building**: Main hub for CS resources
+- **Office Hours**: Most CS courses offer extensive TA and professor office hours
+- **LaIR (Learning And Interactive Resources)**: Drop-in tutoring for introductory CS courses
+- **SUMO (Stanford Undergraduate Mathematical Organization)**: Peer tutoring for math courses
+- **Academic Skills Coaching**: Through the Center for Teaching and Learning
+
+## Career Services & Internships
+
+- **Handshake**: Stanford's job and internship portal
+- **BEAM (Bridging Education, Ambition & Meaningful Work)**: Career counseling, resume reviews, interview prep
+- **CS-specific career fairs**: Held multiple times annually
+- **Company Info Sessions**: Regular recruiting events on campus
+- **CS198 Program**: Teaching assistant opportunities for undergraduates
+- **CURIS (Computer Research Internship for Undergraduates)**: Summer research program
+
+## Notable CS Faculty
+
+- **Fei-Fei Li**: AI and computer vision pioneer, co-director of Stanford HAI
+- **John Hennessy**: Former Stanford president, computer architecture expert
+- **Dan Boneh**: Cryptography and computer security expert
+- **Daphne Koller**: Probabilistic modeling and machine learning
+- **Andrew Ng**: Machine learning and AI pioneer
+- **Jennifer Widom**: Database systems and data management
+
+## Specialized Facilities & Centers
+
+- **Stanford Artificial Intelligence Laboratory (SAIL)**
+- **Stanford Human-Computer Interaction Group**
+- **Stanford SystemX Alliance**: Hardware/software systems research
+- **Stanford Institute for Human-Centered AI (HAI)**
+- **Stanford Computer Graphics Laboratory**
+- **Center for Blockchain Research**
+- **Stanford Robotics Laboratory**
+
+For the most current and detailed information, I recommend consulting your official CS department advisor and the Stanford Computer Science website.

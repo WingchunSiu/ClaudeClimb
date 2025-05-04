@@ -215,7 +215,7 @@ async def analyze_student_profile() -> List[Dict[str, Any]]:
     
     # Initialize Anthropic client
     client = Anthropic(api_key=api_key)
-    model = os.getenv("ANTHROPIC_MODEL", "claude-3-sonnet-20240229")
+    model = os.getenv("ANTHROPIC_MODEL", "claude-3-7-sonnet-20250219")
     
     # Format MBTI type
     mbti_formatted = format_mbti(store.mbti_scores)
@@ -292,7 +292,7 @@ async def analyze_student_profile() -> List[Dict[str, Any]]:
     response = client.messages.create(
         model=model,
         max_tokens=4000,
-        temperature=0.7,
+        temperature=0,
         messages=[{"role": "user", "content": prompt}]
     )
     
