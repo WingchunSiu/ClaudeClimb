@@ -7,7 +7,8 @@ const stepLabels = [
   'Personality',
   'Priorities',
   'Goals',
-  'Results'
+  'Results',
+  'Journey Details'
 ];
 
 const orange = '#ffb347';
@@ -38,7 +39,8 @@ function StepperProgressBar({ currentStep }) {
           position: 'absolute',
           top: 24,
           left: 'calc(18px + 0.5rem)',
-          width: `calc(${(currentStep - 1) / (stepLabels.length - 1) * 100}% - 18px - 0.5rem)`,
+          width: `calc(${Math.min((currentStep - 1) / (stepLabels.length - 1), 1) * 100}% - 18px - 0.5rem)`,
+          maxWidth: 'calc(100% - 36px)',
           height: 2,
           background: orange,
           zIndex: 1,

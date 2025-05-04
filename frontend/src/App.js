@@ -13,7 +13,10 @@ import {
   Group,
   useMantineTheme,
   Box,
-  Progress
+  Progress,
+  Card,
+  SimpleGrid,
+  Badge
 } from '@mantine/core';
 import { IconAlertCircle, IconArrowRight, IconArrowLeft } from '@tabler/icons-react';
 import NameInputStep from './NameInputStep';
@@ -93,10 +96,47 @@ const PlannerOutput = ({ results }) => {
   );
 };
 
+// Dummy data for career trajectories
+const dummyTrajectories = [
+  { name: 'Software Engineer', score: 92 },
+  { name: 'Product Manager', score: 85 },
+  { name: 'Data Scientist', score: 78 },
+  { name: 'UX Designer', score: 74 },
+  { name: 'Academic Researcher', score: 68 }
+];
+
+function CareerTrajectories({ trajectories, onSelect }) {
+  return (
+    <>
+      <Title order={3} mb="md" color="brand.6" align="center">Career Trajectory Options</Title>
+      <SimpleGrid cols={3} spacing="lg" breakpoints={[{ maxWidth: 900, cols: 2 }, { maxWidth: 600, cols: 1 }]} mb="xl">
+        {trajectories.map((t) => (
+          <Card
+            key={t.name}
+            shadow="sm"
+            p="lg"
+            radius="md"
+            withBorder
+            style={{ cursor: 'pointer', transition: 'box-shadow 0.2s', borderColor: '#ffb347' }}
+            onClick={() => onSelect && onSelect(t)}
+          >
+            <Group position="apart" mb="xs">
+              <Text fw={600} size="lg" color="#2c1810">{t.name}</Text>
+              <Badge color="brand" size="lg" variant="filled">{t.score}/100</Badge>
+            </Group>
+            <Text color="dimmed" size="sm">Click to view details</Text>
+          </Card>
+        ))}
+      </SimpleGrid>
+    </>
+  );
+}
+
 function App() {
   const theme = useMantineTheme();
   const [step, setStep] = useState(1);
   const [animationDirection, setAnimationDirection] = useState('forward');
+  const [selectedTrajectory, setSelectedTrajectory] = useState(null);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -178,22 +218,42 @@ function App() {
       preferences: formData.preferences
     };
 
-    const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/generate-plan';
+    // const apiUrl = 'http://localhost:8000/generate-plan';
+    // try {
+    //   console.log("Sending data to API:", apiData);
+    //   const response = await axios.post(apiUrl, apiData);
+    //   console.log("Received data from API:", response.data);
+    //   setPlannerResults({
+    //     milestones: response.data?.milestones || [],
+    //     timeAllocation: response.data?.time_allocation || {}
+    //   });
+    // } catch (err) {
+    //   console.error("API Error:", err);
+    //   setError(err.response?.data?.detail || 'Failed to generate plan. Please check your input and try again.');
+    // } finally {
+    //   setIsLoading(false);
+    // }
 
-    try {
-      console.log("Sending data to API:", apiData);
-      const response = await axios.post(apiUrl, apiData);
-      console.log("Received data from API:", response.data);
+    // Dummy results for local testing
+    setTimeout(() => {
       setPlannerResults({
-        milestones: response.data?.milestones || [],
-        timeAllocation: response.data?.time_allocation || {}
+        milestones: [
+          'Complete foundational courses in your major',
+          'Join a student organization or club',
+          'Secure a summer internship',
+          'Develop a personal project or portfolio',
+          'Network with professionals in your field'
+        ],
+        timeAllocation: {
+          'Academics': 40,
+          'Extracurriculars': 20,
+          'Networking': 10,
+          'Personal Projects': 15,
+          'Rest & Wellness': 20
+        }
       });
-    } catch (err) {
-      console.error("API Error:", err);
-      setError(err.response?.data?.detail || 'Failed to generate plan. Please check your input and try again.');
-    } finally {
       setIsLoading(false);
-    }
+    }, 800);
   };
 
   // CSS for the page layout with more margin at bottom
@@ -260,6 +320,18 @@ function App() {
 
   // Determine if footer should be visible - only show on the first step
   const showFooter = step === 1;
+
+  // Handler for selecting a career trajectory
+  const handleTrajectorySelect = (trajectory) => {
+    setSelectedTrajectory(trajectory);
+    setStep(8); // Move to the new Journey Details step
+  };
+
+  // Handler for going back from Journey Details
+  const handleBackToTrajectories = () => {
+    setSelectedTrajectory(null);
+    setStep(7);
+  };
 
   return (
     <div style={pageStyle}>
@@ -380,35 +452,36 @@ function App() {
             </Paper>
           </div>
 
-          {/* Step 6: Loading / Error / Results */}
+          {/* Step 6: Career Trajectory Options */}
           <div style={getAnimationStyle(6)}>
-            {isLoading && (
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '3rem 0',
-                gap: '1rem'
-              }}>
-                <Loader color="brand" size="lg" variant="dots" />
-                <Text color="dimmed">Crafting your personalized journey...</Text>
-              </div>
+            {step === 6 && !selectedTrajectory && (
+              <CareerTrajectories trajectories={dummyTrajectories} onSelect={handleTrajectorySelect} />
             )}
-            {error && (
-              <Alert
-                icon={<IconAlertCircle size="1rem" />}
-                title="Oops! Something went wrong"
-                color="red"
-                variant="filled"
-                mt="md"
-                radius="md"
-              >
-                {error}
-              </Alert>
+          </div>
+
+          {/* Step 7: Journey Details for selected trajectory */}
+          <div style={getAnimationStyle(7)}>
+            {step === 7 && !selectedTrajectory && (
+              <CareerTrajectories trajectories={dummyTrajectories} onSelect={handleTrajectorySelect} />
             )}
-            {plannerResults && !isLoading && (
+          </div>
+
+          {/* Step 8: Journey Details for selected trajectory */}
+          <div style={getAnimationStyle(8)}>
+            {step === 8 && selectedTrajectory && (
               <>
+                <Title order={3} mb="md" color="brand.6" align="center">
+                  {selectedTrajectory.name} - Match: {selectedTrajectory.score}/100
+                </Title>
+                <Button
+                  onClick={handleBackToTrajectories}
+                  variant='subtle'
+                  color='gray'
+                  leftIcon={<IconArrowLeft size={16} />}
+                  mb='md'
+                >
+                  Back
+                </Button>
                 <PlannerOutput results={plannerResults} />
                 <Button
                   onClick={resetSteps}
@@ -425,22 +498,6 @@ function App() {
                   Start a New Journey
                 </Button>
               </>
-            )}
-            {!isLoading && error && (
-              <Button
-                onClick={resetSteps}
-                variant='light'
-                mt='xl'
-                fullWidth
-                color="red"
-                style={{
-                  borderRadius: '8px',
-                  height: '48px',
-                  fontSize: '1rem'
-                }}
-              >
-                Try Again
-              </Button>
             )}
           </div>
         </div>
