@@ -125,7 +125,7 @@ function CareerTrajectories({ trajectories, onSelect }) {
               <Text fw={600} size="lg" color="#2c1810">{t.name}</Text>
               <Badge color="brand" size="lg" variant="filled">{t.score}/100</Badge>
             </Group>
-            <Text color="dimmed" size="sm">Click to view details</Text>
+            <Text color="dimmed" size="sm">Click to generate detailed plan</Text>
           </Card>
         ))}
       </SimpleGrid>
@@ -205,7 +205,7 @@ function App() {
 
     try {
       // Call the reasoning agent to get career recommendations
-      const response = await axios.post('/api/reason', {
+      const response = await axios.post('http://localhost:8000/api/reason', {
         // The reasoning agent will use the state store data
         // No need to send data as it's already in the state store
       });

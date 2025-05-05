@@ -20,7 +20,7 @@ function BasicInfoStep({ formData, onChange, onNext, onBack }) {
       setIsSubmitting(true);
       try {
         // Send basic info to backend
-        const response = await fetch('/api/websearch', {
+        const response = await fetch('http://localhost:8000/api/websearch', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

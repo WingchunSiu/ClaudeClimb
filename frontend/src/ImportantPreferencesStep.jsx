@@ -91,7 +91,7 @@ function ImportantPreferencesStep({ preferences, onChange, onNext, onBack }) {
     setIsSubmitting(true);
     try {
       // Send priorities to backend
-      const response = await fetch('/api/priorities', {
+      const response = await fetch('http://localhost:8000/api/priorities', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

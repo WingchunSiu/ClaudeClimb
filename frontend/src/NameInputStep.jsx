@@ -15,7 +15,7 @@ function NameInputStep({ formData, onChange, onNext }) {
       setIsSubmitting(true);
       try {
         // Send name to backend - updated endpoint
-        const response = await fetch('/api/update-name', {
+        const response = await fetch('http://localhost:8000/api/update-name', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: formData.name }),
