@@ -16,7 +16,8 @@ import {
   Progress,
   Card,
   SimpleGrid,
-  Badge
+  Badge,
+  Tooltip
 } from '@mantine/core';
 import { IconAlertCircle, IconArrowRight, IconArrowLeft } from '@tabler/icons-react';
 import NameInputStep from './NameInputStep';
@@ -125,7 +126,33 @@ function CareerTrajectories({ trajectories, onSelect }) {
               <Text fw={600} size="lg" color="#2c1810">{t.name}</Text>
               <Badge color="brand" size="lg" variant="filled">{t.score}/100</Badge>
             </Group>
-            <Text color="dimmed" size="sm">Click to generate detailed plan</Text>
+            <Text color="dimmed" size="sm" mb="md">Click to generate detailed plan</Text>
+
+            {/* Add reasons as tags with tooltips */}
+            <Stack spacing="xs">
+              {t.reasons && t.reasons.map((reason, index) => (
+                <Tooltip
+                  key={index}
+                  label={reason.explanation}
+                  position="bottom"
+                  multiline
+                  width={300}
+                  withArrow
+                  transition="fade"
+                  transitionDuration={200}
+                >
+                  <Badge
+                    color="blue"
+                    variant="light"
+                    size="sm"
+                    style={{ cursor: 'help' }}
+                    onClick={(e) => e.stopPropagation()} // Prevent card click when clicking badge
+                  >
+                    {reason.strength}
+                  </Badge>
+                </Tooltip>
+              ))}
+            </Stack>
           </Card>
         ))}
       </SimpleGrid>
@@ -224,7 +251,7 @@ function App() {
 
       // Store the full response for later use
       setPlannerResults(response.data);
-      
+
       // Update the dummy trajectories with real data
       dummyTrajectories.splice(0, dummyTrajectories.length, ...trajectories);
 
@@ -495,7 +522,6 @@ function App() {
         </div>
       </div>
 
-      {/* Only render the footer if no name has been entered */}
       {showFooter && <ClaudeFooter />}
     </div>
   );
