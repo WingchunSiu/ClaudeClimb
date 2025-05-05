@@ -1,5 +1,6 @@
 import { Select, TextInput, Stack, Title, Button, Group, Text, Box } from '@mantine/core';
 import { IconArrowRight, IconArrowLeft } from '@tabler/icons-react';
+import { useState } from 'react';
 
 // Updated options to be more conversational
 const YEAR_OPTIONS = [
@@ -11,10 +12,40 @@ const YEAR_OPTIONS = [
 ];
 
 function BasicInfoStep({ formData, onChange, onNext, onBack }) {
-  const handleNext = (e) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleNext = async (e) => {
     e.preventDefault();
     if (formData.year && formData.major.trim()) {
-      onNext();
+      setIsSubmitting(true);
+      try {
+        // Send basic info to backend
+        const response = await fetch('/api/websearch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            college: formData.university || '',
+            major: formData.major,
+            grade: formData.year,
+            gender: formData.gender || ''
+          }),
+        });
+
+        if (response.ok) {
+          // Get the web search results
+          const data = await response.json();
+          console.log('Basic info updated and web search completed:', data);
+        } else {
+          console.error('Failed to update basic info:', await response.text());
+        }
+      } catch (error) {
+        console.error('Error updating basic info:', error);
+      } finally {
+        setIsSubmitting(false);
+        // Always proceed to next step, even if the API call fails
+        onNext();
+      }
     } else {
       console.log("Year and Major are required");
     }
@@ -104,6 +135,7 @@ function BasicInfoStep({ formData, onChange, onNext, onBack }) {
               type="submit"
               rightIcon={<IconArrowRight size={16} />}
               size="lg"
+              loading={isSubmitting}
             >
               Continue
             </Button>

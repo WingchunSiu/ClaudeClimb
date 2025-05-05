@@ -5,7 +5,7 @@ Uses the simple state store to save results
 import os
 import sys
 import asyncio
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 from anthropic import Anthropic
@@ -14,37 +14,7 @@ from dotenv import load_dotenv
 # Fix import path for state_store
 # This allows the file to be run directly and also imported as a module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-try:
-    from state_store import StateStore
-except ImportError:
-    print("WARNING: Could not import StateStore. Some functionality may be limited.")
-    # Create a minimal StateStore for standalone testing
-    class StateStore:
-        _instance = None
-        
-        @classmethod
-        def get_instance(cls):
-            if cls._instance is None:
-                cls._instance = StateStore()
-            return cls._instance
-        
-        def __init__(self):
-            self.name = "Test Student"
-            self.college = ""
-            self.major = ""
-            self.grade = "Junior"
-            self.gender = "Other"
-            self.web_search_results = ""
-        
-        def update_basic_info(self, name, college, major, grade, gender):
-            self.name = name
-            self.college = college
-            self.major = major
-            self.grade = grade
-            self.gender = gender
-        
-        def update_web_search(self, results):
-            self.web_search_results = results
+from state_store import StateStore
 
 # Load environment variables
 load_dotenv()
@@ -134,8 +104,13 @@ async def get_degree_information(request: WebSearchRequest) -> Dict[str, Any]:
     Also stores basic info and search results in the state store
     """
     try:
-        # Save basic info to the state store
+        # Get the state store instance
         store = StateStore.get_instance()
+        
+        # Log which agent is accessing the state store
+        print(f"Web search agent accessing StateStore instance: {store.get_instance_id()}")
+        
+        # Save basic info to the state store
         store.update_basic_info(
             name=request.name,
             college=request.college,

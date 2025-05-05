@@ -4,6 +4,8 @@ Stores all application state in a single object
 MBTI scores are on a 0–100 scale, with 50 as neutral midpoint
 """
 
+import uuid
+
 class StateStore:
     """Simple singleton state store"""
     _instance = None
@@ -17,6 +19,10 @@ class StateStore:
     
     def __init__(self):
         """Initialize with default state"""
+        # Add a unique identifier to this instance
+        self.instance_id = str(uuid.uuid4())
+        print(f"Created new StateStore instance with ID: {self.instance_id}")
+        
         # Basic info
         self.name = ""
         self.college = ""
@@ -55,6 +61,10 @@ class StateStore:
         
         # Selected career
         self.selected_career = None
+    
+    def get_instance_id(self):
+        """Return the instance ID for debugging"""
+        return self.instance_id
     
     def update_basic_info(self, name, college, major, grade, gender):
         """Update basic info"""

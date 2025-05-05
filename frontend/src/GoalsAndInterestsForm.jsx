@@ -34,7 +34,7 @@ function GoalsAndInterestsForm({ data, onChange, onKnowsGoalsChange }) {
   const handleCheckboxChange = (event) => {
     onKnowsGoalsChange(event.currentTarget.checked);
   };
-  
+
   // Goal type options with more engaging descriptions
   const goalTypeOptions = [
     { 

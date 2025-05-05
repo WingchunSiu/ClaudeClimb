@@ -203,179 +203,37 @@ function App() {
     setPlannerResults(null);
     setStep(6);
 
-    const apiData = {
-      basic_info: {
-        name: formData.name,
-        gender: formData.gender,
-        year: formData.year,
-        major: formData.major,
-        university: formData.university,
-      },
-      career_goals: formData.knowsGoals ? formData.goals : "User does not know",
-      hobbies: formData.hobbies,
-      interests: formData.interests,
-      skills: formData.skills,
-      mbti_type: formData.mbtiType,
-      preferences: formData.preferences
-    };
-
-    // const apiUrl = 'http://localhost:8000/generate-plan';
-    // try {
-    //   console.log("Sending data to API:", apiData);
-    //   const response = await axios.post(apiUrl, apiData);
-    //   console.log("Received data from API:", response.data);
-    //   setPlannerResults({
-    //     milestones: response.data?.milestones || [],
-    //     timeAllocation: response.data?.time_allocation || {}
-    //   });
-    // } catch (err) {
-    //   console.error("API Error:", err);
-    //   setError(err.response?.data?.detail || 'Failed to generate plan. Please check your input and try again.');
-    // } finally {
-    //   setIsLoading(false);
-    // }
-
-    // Dummy results for local testing
-    setTimeout(() => {
-      setPlannerResults({
-        career: "Software Engineer",
-        introduction: "Hi Alex! I've created a personalized roadmap to help you navigate your journey from Stanford CS student to successful software engineer. As an ESFJ who values work-life balance and creative problem-solving, you're well-positioned to thrive in this field. Your natural ability to connect with others and preference for practical solutions will be tremendous assets. Let's make the most of your remaining time at Stanford!",
-        sections: [
-          {
-            title: "Coursework Strategy",
-            description: "Given your current stage as a junior, let's focus on courses that will strengthen your software engineering foundation while keeping your options open.",
-            steps: [
-              {
-                title: "Core Systems Focus",
-                description: "Since you're in your junior year, prioritize completing CS 110 and CS 111 if you haven't already. These systems courses are crucial for software engineering interviews and will give you practical knowledge you'll use daily.",
-                timeline: "Next quarter",
-                resources: [
-                  "Course catalog",
-                  "CS department advisors",
-                  "Previous course evaluations"
-                ]
-              },
-              {
-                title: "Choose Your Track",
-                description: "Consider the Systems or Human-Computer Interaction track, which align well with your ESFJ traits and interest in creative problem-solving. The Systems track will give you solid engineering fundamentals, while HCI lets you combine technical skills with user empathy.",
-                timeline: "Before course selection for next quarter",
-                resources: [
-                  "Track requirements documentation",
-                  "CS peer advisors",
-                  "Professor office hours"
-                ]
-              }
-            ]
-          },
-          {
-            title: "Hands-on Experience",
-            description: "Let's leverage Stanford's amazing opportunities to build your practical experience.",
-            steps: [
-              {
-                title: "Summer Internship Preparation",
-                description: "Alex, with your people skills, you'd thrive at companies that value collaboration. Target companies like Google, Microsoft, or smaller startups that emphasize work-life balance and creative culture. Start applying in fall for summer positions.",
-                timeline: "September-November",
-                resources: [
-                  "BEAM career services",
-                  "Handshake portal",
-                  "CS department career fairs"
-                ]
-              },
-              {
-                title: "Teaching Assistant Role",
-                description: "Consider becoming a CS198 Teaching Assistant for CS106B or similar courses. This will strengthen your fundamentals and leverage your natural ability to help others learn.",
-                timeline: "Apply before next quarter",
-                resources: [
-                  "CS198 program coordinator",
-                  "Current TAs",
-                  "Course staff"
-                ]
-              }
-            ]
-          },
-          {
-            title: "Skill Development",
-            description: "Focus on building both technical and soft skills that align with your personality and career goals.",
-            steps: [
-              {
-                title: "Technical Portfolio",
-                description: "Create 2-3 personal projects that showcase your creativity and problem-solving abilities. Consider building something that helps your community, which would align with your ESFJ values.",
-                timeline: "Over the next two quarters",
-                resources: [
-                  "GitHub",
-                  "Stanford makerspaces",
-                  "CS project showcase events"
-                ]
-              },
-              {
-                title: "Communication Skills",
-                description: "Your natural ESFJ strengths in communication are valuable! Further develop them through technical writing and presentation opportunities.",
-                timeline: "Ongoing",
-                resources: [
-                  "PWR courses",
-                  "Toastmasters at Stanford",
-                  "Technical writing workshops"
-                ]
-              }
-            ]
-          },
-          {
-            title: "Networking",
-            description: "Build meaningful connections that align with your extroverted nature.",
-            steps: [
-              {
-                title: "Join Tech Communities",
-                description: "Get involved with Stanford's CS community in ways that energize you. Consider joining Women in Computer Science (WiCS) or Association for Computing Machinery (ACM).",
-                timeline: "Immediate",
-                resources: [
-                  "Student organizations directory",
-                  "CS department events calendar",
-                  "Club fairs"
-                ]
-              },
-              {
-                title: "Alumni Connections",
-                description: "Connect with Stanford CS alumni who work at companies prioritizing work-life balance and creative culture.",
-                timeline: "Ongoing",
-                resources: [
-                  "Stanford Alumni Network",
-                  "LinkedIn",
-                  "BEAM alumni events"
-                ]
-              }
-            ]
-          },
-          {
-            title: "Work-Life Balance",
-            description: "Maintain your well-being while pursuing your goals.",
-            steps: [
-              {
-                title: "Bay Area Exploration",
-                description: "Take advantage of Stanford's location! Join hiking groups for local trails, explore San Francisco's tech meetups, or enjoy weekend trips to Santa Cruz.",
-                timeline: "Weekly/Monthly",
-                resources: [
-                  "Stanford Outdoor Center",
-                  "Bay Area Hiking Groups",
-                  "Stanford Transportation"
-                ]
-              },
-              {
-                title: "Creative Outlets",
-                description: "Balance your technical work with creative activities. Consider joining Stanford's Design for America chapter or participate in hackathons that focus on social impact.",
-                timeline: "Quarterly",
-                resources: [
-                  "Stanford d.school events",
-                  "Local hackathons",
-                  "Campus recreation programs"
-                ]
-              }
-            ]
-          }
-        ],
-        conclusion: "Alex, you're in an excellent position to launch a fulfilling career as a software engineer! Your ESFJ traits of empathy, organization, and people skills will be incredible assets in this field. Remember to leverage Stanford's amazing resources while staying true to your priorities of work-life balance and creative problem-solving. Take it one step at a time, and don't hesitate to reach out to your advisors and peers for support. You've got this!"
+    try {
+      // Call the reasoning agent to get career recommendations
+      const response = await axios.post('/api/reason', {
+        // The reasoning agent will use the state store data
+        // No need to send data as it's already in the state store
       });
+
+      if (!response.data || !response.data.recommendations) {
+        throw new Error('Invalid response from reasoning agent');
+      }
+
+      // Update the career trajectories with real data
+      const trajectories = response.data.recommendations.map(rec => ({
+        name: rec.career,
+        score: rec.score,
+        description: rec.description,
+        reasons: rec.reasons
+      }));
+
+      // Store the full response for later use
+      setPlannerResults(response.data);
+      
+      // Update the dummy trajectories with real data
+      dummyTrajectories.splice(0, dummyTrajectories.length, ...trajectories);
+
+    } catch (err) {
+      console.error("Reasoning Agent Error:", err);
+      setError(err.response?.data?.detail || 'Failed to generate career recommendations. Please try again.');
+    } finally {
       setIsLoading(false);
-    }, 800);
+    }
   };
 
   // CSS for the page layout with more margin at bottom
@@ -577,8 +435,33 @@ function App() {
 
           {/* Step 6: Career Trajectory Options */}
           <div style={getAnimationStyle(6)}>
-            {step === 6 && !selectedTrajectory && (
-              <CareerTrajectories trajectories={dummyTrajectories} onSelect={handleTrajectorySelect} />
+            {step === 6 && (
+              <>
+                {isLoading ? (
+                  <Paper shadow="sm" p="xl" withBorder style={{
+                    borderRadius: '16px',
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    backdropFilter: 'blur(10px)',
+                    textAlign: 'center'
+                  }}>
+                    <Stack spacing="xl" align="center">
+                      <Loader size="xl" color="brand" />
+                      <Title order={3} color="brand.6">
+                        Your agents are reasoning your custom career plan...
+                      </Title>
+                      <Text color="dimmed" size="lg">
+                        We're analyzing your profile, preferences, and goals to find the perfect career matches for you.
+                      </Text>
+                    </Stack>
+                  </Paper>
+                ) : error ? (
+                  <Alert icon={<IconAlertCircle size={16} />} title="Error" color="red">
+                    {error}
+                  </Alert>
+                ) : (
+                  <CareerTrajectories trajectories={dummyTrajectories} onSelect={handleTrajectorySelect} />
+                )}
+              </>
             )}
           </div>
 

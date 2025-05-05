@@ -50,6 +50,7 @@ const defaultPreferences = [
 function ImportantPreferencesStep({ preferences, onChange, onNext, onBack }) {
   const [customPref, setCustomPref] = useState('');
   const [selected, setSelected] = useState(preferences || []);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [allPreferences, setAllPreferences] = useState([
     ...defaultPreferences,
     ...(preferences ? preferences.filter(p => !defaultPreferences.includes(p)) : [])
@@ -81,6 +82,35 @@ function ImportantPreferencesStep({ preferences, onChange, onNext, onBack }) {
       setSelected(updated);
       onChange(updated);
       setCustomPref('');
+    }
+  };
+
+  const handleNext = async () => {
+    if (selected.length < 3) return;
+    
+    setIsSubmitting(true);
+    try {
+      // Send priorities to backend
+      const response = await fetch('/api/priorities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priorities: selected
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Priorities updated:', data);
+      } else {
+        console.error('Failed to update priorities:', await response.text());
+      }
+    } catch (error) {
+      console.error('Error updating priorities:', error);
+    } finally {
+      setIsSubmitting(false);
+      // Always proceed to next step, even if the API call fails
+      onNext();
     }
   };
 
@@ -154,10 +184,11 @@ function ImportantPreferencesStep({ preferences, onChange, onNext, onBack }) {
           Back
         </Button>
         <Button
-          onClick={onNext}
+          onClick={handleNext}
           color="brand"
           rightIcon={<IconArrowRight size={16} />}
           disabled={selected.length < 3}
+          loading={isSubmitting}
         >
           Continue
         </Button>

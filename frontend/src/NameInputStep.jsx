@@ -1,14 +1,36 @@
 import { Stack, TextInput, Button, Title, Text, Box } from '@mantine/core';
 import { IconArrowRight } from '@tabler/icons-react';
+import { useState } from 'react';
 
 function NameInputStep({ formData, onChange, onNext }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleNameChange = (event) => {
     onChange('name', event.currentTarget.value);
   };
 
-  const handleNext = (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
     if (formData.name.trim()) {
+      setIsSubmitting(true);
+      try {
+        // Send name to backend - updated endpoint
+        const response = await fetch('/api/update-name', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: formData.name }),
+        });
+        if (!response.ok) {
+          throw new Error('Failed to update name');
+        }
+        // Optionally handle response data
+        const data = await response.json();
+        console.log('Name updated:', data);
+      } catch (error) {
+        console.error('Error updating name:', error);
+      } finally {
+        setIsSubmitting(false);
+      }
       onNext();
     } else {
       console.log("Name is required");
@@ -55,6 +77,7 @@ function NameInputStep({ formData, onChange, onNext }) {
             height: '48px',
             fontSize: '1.1rem'
           }}
+          loading={isSubmitting}
         >
           Begin Journey
         </Button>

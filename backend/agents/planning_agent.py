@@ -15,59 +15,7 @@ from dotenv import load_dotenv
 # Fix import path for state_store
 # This allows the file to be run directly and also imported as a module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-try:
-    from state_store import StateStore
-except ImportError:
-    print("WARNING: Could not import StateStore. Creating minimal version...")
-    # Create a minimal StateStore for standalone testing
-    class StateStore:
-        _instance = None
-        
-        @classmethod
-        def get_instance(cls):
-            if cls._instance is None:
-                cls._instance = StateStore()
-            return cls._instance
-        
-        def __init__(self):
-            self.name = "Alex Johnson"
-            self.college = "Stanford University"
-            self.major = "Computer Science"
-            self.grade = "Junior"
-            self.gender = "Non-binary"
-            self.web_search_results = "Stanford's Computer Science program is highly regarded..."
-            self.mbti_scores = {"ei": 50, "sn": 33, "tf": 40, "jp": 20}
-            self.priorities = ["Work-life balance", "Creative problem-solving", "High income potential"]
-            self.goals_and_interests = {
-                "knowsGoals": True,
-                "goalType": "industry",
-                "goals": "I want to become a tech leader who makes a positive impact through innovation.",
-                "interests": "AI, Machine Learning, Photography, Hiking",
-                "skills": "Problem Solving, Communication, Programming"
-            }
-            self.career_options = []
-            self.career_reasoning = {}
-            self.selected_career = "Software Engineer"
-            self.career_plan = {}
-            
-        def update_career_options(self, options):
-            self.career_options = options
-            
-        def update_career_reasoning(self, reasoning):
-            self.career_reasoning = reasoning
-            
-        def select_career(self, career):
-            self.selected_career = career
-            
-        def update_career_plan(self, plan):
-            self.career_plan = plan
-            
-        def update_basic_info(self, name, college, major, grade, gender):
-            self.name = name
-            self.college = college
-            self.major = major
-            self.grade = grade
-            self.gender = gender
+from state_store import StateStore
 
 # Load environment variables
 load_dotenv()
@@ -387,6 +335,12 @@ async def get_career_plan(request: CareerPlanRequest) -> Dict[str, Any]:
     Uses the state store to access the complete student profile
     """
     try:
+        # Get the state store instance
+        store = StateStore.get_instance()
+        
+        # Log which agent is accessing the state store
+        print(f"Planning agent accessing StateStore instance: {store.get_instance_id()}")
+        
         # Generate the career plan
         plan = await generate_career_plan(request.career)
         
@@ -421,11 +375,11 @@ def initialize_test_data():
     # Ensure the store has MBTI scores
     if not store.mbti_scores or all(v == 50 for v in store.mbti_scores.values()):
         store.mbti_scores = {
-        "ei": 65,   # ≥50 → Extraverted
-        "sn": 40,   # <50 → Sensing
-        "tf": 80,   # ≥50 → Thinking
-        "jp": 30    # <50 → Judging
-    }
+            "ei": 65,   # ≥50 → Extraverted
+            "sn": 40,   # <50 → Sensing
+            "tf": 80,   # ≥50 → Thinking
+            "jp": 30    # <50 → Judging
+        }
     
     # Ensure the store has priorities
     if not store.priorities:

@@ -1,13 +1,12 @@
 """
-Reasoning Agent: Analyzes student profiles to determine suitable career paths
-Provides detailed reasoning for each recommendation
-Includes proper initialization for testing
+Reasoning Agent: Analyzes student profile data and generates career recommendations
+Uses MBTI scores, priorities, goals, and interests to suggest suitable career paths
 """
 import os
 import sys
 import asyncio
 import json
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 from anthropic import Anthropic
@@ -16,56 +15,7 @@ from dotenv import load_dotenv
 # Fix import path for state_store
 # This allows the file to be run directly and also imported as a module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-try:
-    from state_store import StateStore
-except ImportError:
-    print("WARNING: Could not import StateStore. Creating minimal version...")
-    # Create a minimal StateStore for standalone testing
-    class StateStore:
-        _instance = None
-        
-        @classmethod
-        def get_instance(cls):
-            if cls._instance is None:
-                cls._instance = StateStore()
-            return cls._instance
-        
-        def __init__(self):
-            self.name = "Test Student"
-            self.college = "Stanford University"
-            self.major = "Computer Science"
-            self.grade = "Junior"
-            self.gender = "Other"
-            self.web_search_results = "Stanford's Computer Science program is highly regarded..."
-            self.mbti_scores = {
-            "ei": 50,  # Extraversion vs Introversion
-            "sn": 50,  # Sensing vs Intuition
-            "tf": 50,  # Thinking vs Feeling
-            "jp": 50,  # Judging vs Perceiving
-        }
-            self.priorities = ["Work-life balance", "Creative problem-solving", "High income potential"]
-            self.goals_and_interests = {
-                "knowsGoals": True,
-                "goalType": "industry",
-                "goals": "I want to become a tech leader who makes a positive impact through innovation.",
-                "interests": "AI, Machine Learning, Photography, Hiking",
-                "skills": "Problem Solving, Communication, Programming"
-            }
-            self.career_options = []
-            self.career_reasoning = {}
-            
-        def update_career_options(self, options):
-            self.career_options = options
-            
-        def update_career_reasoning(self, reasoning):
-            self.career_reasoning = reasoning
-            
-        def update_basic_info(self, name, college, major, grade, gender):
-            self.name = name
-            self.college = college
-            self.major = major
-            self.grade = grade
-            self.gender = gender
+from state_store import StateStore
 
 # Load environment variables
 load_dotenv()
@@ -75,21 +25,21 @@ load_dotenv()
 # ============================================================
 class CareerReason(BaseModel):
     """Reason for a career recommendation"""
-    strength: str = Field(..., description="A strength or reason why this career fits")
-    explanation: str = Field(..., description="Detailed explanation of the strength")
+    strength: str = Field(..., description="Strength of the match (e.g., 'Strong match with Computer Science degree')")
+    explanation: str = Field(..., description="Detailed explanation of why this career is a good match")
 
 
 class CareerRecommendation(BaseModel):
-    """Career recommendation with detailed reasoning"""
-    career: str = Field(..., description="Career title or field")
-    score: float = Field(..., description="Match score between 0-100")
-    reasons: List[CareerReason] = Field(..., description="List of specific reasons for this recommendation")
+    """Career recommendation with reasoning"""
+    career: str = Field(..., description="Career title")
+    score: int = Field(..., description="Match score (0-100)")
     description: str = Field(..., description="Brief description of the career")
+    reasons: List[CareerReason] = Field(..., description="List of reasons why this career is a good match")
 
 
 class ReasoningResponse(BaseModel):
     """Response from the reasoning agent"""
-    recommendations: List[CareerRecommendation] = Field(..., description="List of career recommendations with reasoning")
+    recommendations: List[CareerRecommendation] = Field(..., description="List of career recommendations")
 
 
 # ============================================================
@@ -353,25 +303,132 @@ async def analyze_student_profile() -> List[Dict[str, Any]]:
 # ============================================================
 router = APIRouter(prefix="/api", tags=["reasoning"])
 
-@router.get("/career-reasoning", response_model=ReasoningResponse)
-async def get_career_reasoning() -> Dict[str, Any]:
+@router.post("/reason", response_model=ReasoningResponse)
+async def generate_recommendations() -> Dict[str, Any]:
     """
-    API endpoint to get career recommendations with detailed reasoning
+    API endpoint to generate career recommendations
     Uses the state store to access the complete student profile
     """
     try:
-        # Get recommendations
-        recommendations = await analyze_student_profile()
+        # Get the state store instance
+        store = StateStore.get_instance()
         
-        # Return the recommendations
-        return {"recommendations": recommendations}
+        # Log which agent is accessing the state store
+        print(f"Reasoning agent accessing StateStore instance: {store.get_instance_id()}")
         
-    except ValueError as e:
-        # Handle expected errors
-        raise HTTPException(status_code=400, detail=str(e))
+        # Check for API key
+        api_key = os.getenv("ANTHROPIC_API_KEY")
+        if not api_key:
+            raise ValueError("ANTHROPIC_API_KEY environment variable not set")
+        
+        # Initialize Anthropic client
+        client = Anthropic(api_key=api_key)
+        model = os.getenv("ANTHROPIC_MODEL", "claude-3-7-sonnet-20250219")
+        
+        # Format MBTI type
+        mbti_type = ""
+        mbti_type += "E" if store.mbti_scores["ei"] >= 50 else "I"
+        mbti_type += "N" if store.mbti_scores["sn"] >= 50 else "S"
+        mbti_type += "F" if store.mbti_scores["tf"] >= 50 else "T"
+        mbti_type += "P" if store.mbti_scores["jp"] >= 50 else "J"
+        
+        # Create prompt for Claude
+        prompt = f"""
+        I need you to analyze a student's profile and suggest suitable career paths. Here's their information:
+
+        Name: {store.name}
+        College: {store.college}
+        Major: {store.major}
+        Grade: {store.grade}
+        Gender: {store.gender}
+
+        MBTI Type: {mbti_type}
+        MBTI Scores:
+        - Extraversion/Introversion: {store.mbti_scores["ei"]}% (≥50% is Extraverted)
+        - Sensing/Intuition: {store.mbti_scores["sn"]}% (≥50% is Intuitive)
+        - Thinking/Feeling: {store.mbti_scores["tf"]}% (≥50% is Feeling)
+        - Judging/Perceiving: {store.mbti_scores["jp"]}% (≥50% is Perceiving)
+
+        Priorities: {", ".join(store.priorities)}
+
+        Goals and Interests:
+        {format_goals_and_interests(getattr(store, "goals_and_interests", {}))}
+
+        Based on this information, please suggest 5 career paths that would be a good match for this student.
+        For each career, provide:
+        1. A match score (0-100)
+        2. A brief description of the career
+        3. 3-4 specific reasons why this career would be a good match, considering their:
+           - Major and academic background
+           - MBTI personality type and preferences
+           - Stated priorities and values
+           - Goals and interests
+           - Natural talents and skills
+
+        Format your response as a JSON object with the following structure:
+        {{
+          "recommendations": [
+            {{
+              "career": "Career Title",
+              "score": 85,
+              "description": "Brief description of the career",
+              "reasons": [
+                {{
+                  "strength": "Strength of the match",
+                  "explanation": "Detailed explanation"
+                }}
+              ]
+            }}
+          ]
+        }}
+
+        Make sure your recommendations are:
+        1. Realistic and achievable with their background
+        2. Aligned with their personality type and preferences
+        3. Matched to their stated priorities and values
+        4. Supported by specific, detailed reasoning
+        5. Varied in terms of different career paths
+        """
+        
+        # Call Claude
+        response = client.messages.create(
+            model=model,
+            max_tokens=4000,
+            temperature=0,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        
+        # Extract the text content
+        if response.content and len(response.content) > 0:
+            content_block = response.content[0]
+            if hasattr(content_block, 'text'):
+                text_content = content_block.text
+            else:
+                text_content = str(content_block)
+            
+            # Try to extract JSON from the response
+            try:
+                # Find JSON content (look for opening and closing braces)
+                json_start = text_content.find('{')
+                json_end = text_content.rfind('}') + 1
+                
+                if json_start >= 0 and json_end > json_start:
+                    json_content = text_content[json_start:json_end]
+                    data = json.loads(json_content)
+                    
+                    # Store the recommendations in the state store
+                    store.career_reasoning = data
+                    
+                    return data
+            except json.JSONDecodeError as e:
+                print(f"JSON parsing error: {str(e)}")
+                raise HTTPException(status_code=500, detail="Failed to parse reasoning agent response")
+        
+        raise HTTPException(status_code=500, detail="Failed to generate career recommendations")
+        
     except Exception as e:
         # Handle unexpected errors
-        raise HTTPException(status_code=500, detail=f"Error generating career reasoning: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error generating recommendations: {str(e)}")
 
 def interpret_mbti(scores: Dict[str, int]) -> Dict[str, str]:
     return {

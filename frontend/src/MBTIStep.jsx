@@ -40,7 +40,7 @@ function MBTIStep({ onNext, onBack }) {
     tf: 50, // Thinking/Feeling
     jp: 50  // Judging/Perceiving
   });
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [mbtiType, setMbtiType] = useState('');
 
   // Calculate MBTI type based on slider values
@@ -59,6 +59,39 @@ function MBTIStep({ onNext, onBack }) {
       ...prev,
       [key]: value
     }));
+  };
+
+  const handleNext = async () => {
+    setIsSubmitting(true);
+    try {
+      // Send MBTI scores to backend
+      const response = await fetch('/api/mbti', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scores: {
+            ei: sliderValues.ei,
+            sn: sliderValues.sn,
+            tf: sliderValues.tf,
+            jp: sliderValues.jp
+          }
+        }),
+      });
+
+      if (response.ok) {
+        // Get the updated profile
+        const data = await response.json();
+        console.log('MBTI scores updated:', data);
+      } else {
+        console.error('Failed to update MBTI scores:', await response.text());
+      }
+    } catch (error) {
+      console.error('Error updating MBTI scores:', error);
+    } finally {
+      setIsSubmitting(false);
+      // Always proceed to next step, even if the API call fails
+      onNext();
+    }
   };
 
   return (
@@ -175,18 +208,13 @@ function MBTIStep({ onNext, onBack }) {
           </Box>
         </Stack>
 
-        {/* Right side - MBTI Result */}
-        <Paper 
-          shadow="sm" 
-          p="xl" 
-          withBorder 
-          style={{ 
-            flex: 1,
-            background: 'rgba(255, 255, 255, 0.9)',
-            backdropFilter: 'blur(10px)',
-            borderColor: 'rgba(255, 179, 71, 0.2)'
-          }}
-        >
+        {/* Right side - MBTI Type Display */}
+        <Paper shadow="sm" p="xl" withBorder style={{
+          flex: 1,
+          background: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(10px)',
+          borderLeft: '4px solid #ffb347'
+        }}>
           <Stack spacing="md" align="center">
             <Title order={2} color="brand.6" style={{ letterSpacing: '-0.02em' }}>
               Your Personality Type
@@ -229,9 +257,10 @@ function MBTIStep({ onNext, onBack }) {
           Back
         </Button>
         <Button
-          onClick={onNext}
+          onClick={handleNext}
           color="brand"
           rightIcon={<IconArrowRight size={16} />}
+          loading={isSubmitting}
         >
           Continue
         </Button>

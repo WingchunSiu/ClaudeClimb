@@ -8,67 +8,52 @@ import asyncio
 from typing import Dict, Any, List, Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
+from anthropic import Anthropic
+from dotenv import load_dotenv
 
-# Fix import path for state_store
+# Fix import path for state_store and constants
 # This allows the file to be run directly and also imported as a module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-try:
-    from state_store import StateStore
-except ImportError:
-    print("WARNING: Could not import StateStore. Some functionality may be limited.")
-    # Create a minimal StateStore for standalone testing
-    class StateStore:
-        _instance = None
-        
-        @classmethod
-        def get_instance(cls):
-            if cls._instance is None:
-                cls._instance = StateStore()
-            return cls._instance
-        
-        def __init__(self):
-            self.mbti_scores = {"ei": 0, "sn": 0, "tf": 0, "jp": 0}
-            self.priorities = []
-            self.goals_and_interests = {}
-            
-        def update_mbti(self, ei, sn, tf, jp):
-            self.mbti_scores = {"ei": ei, "sn": sn, "tf": tf, "jp": jp}
-            
-        def update_priorities(self, priorities):
-            self.priorities = priorities
-            
-        def update_goals_and_interests(self, goals_data):
-            self.goals_and_interests = goals_data
+from state_store import StateStore
+
+
+# Load environment variables
+load_dotenv()
 
 # ============================================================
 # Models
 # ============================================================
-class MbtiScores(BaseModel):
-    ei: int = Field(..., description="Extraversion vs Introversion preference score (0–100)")
-    sn: int = Field(..., description="Sensing vs Intuition preference score (0–100)")
-    tf: int = Field(..., description="Thinking vs Feeling preference score (0–100)")
-    jp: int = Field(..., description="Judging vs Perceiving preference score (0–100)")
+class MBTIScores(BaseModel):
+    """MBTI scores for each dimension"""
+    ei: int = Field(..., description="Extraversion/Introversion score (0-100)")
+    sn: int = Field(..., description="Sensing/Intuition score (0-100)")
+    tf: int = Field(..., description="Thinking/Feeling score (0-100)")
+    jp: int = Field(..., description="Judging/Perceiving score (0-100)")
 
-
-
-class MbtiUpdateRequest(BaseModel):
+class MBTIUpdateRequest(BaseModel):
     """Request to update MBTI scores"""
-    scores: MbtiScores = Field(..., description="MBTI scores")
+    scores: MBTIScores = Field(..., description="MBTI scores for each dimension")
 
+class MBTIUpdateResponse(BaseModel):
+    """Response from MBTI update"""
+    mbti_type: str = Field(..., description="Calculated MBTI type")
+    scores: MBTIScores = Field(..., description="Updated MBTI scores")
 
-class PrioritiesUpdateRequest(BaseModel):
-    """Request to update priorities"""
-    priorities: List[str] = Field(..., description="List of career priorities and values")
-
-
-class GoalsInterestsRequest(BaseModel):
+class GoalsAndInterestsRequest(BaseModel):
     """Request to update goals and interests"""
-    knowsGoals: bool = Field(..., description="Whether the student has a clear vision")
+    knowsGoals: bool = Field(..., description="Whether the user has clear goals")
     goalType: Optional[str] = Field(None, description="Type of career goal")
     goals: Optional[str] = Field(None, description="Description of goals and aspirations")
     interests: Optional[str] = Field(None, description="List of interests and hobbies")
     skills: Optional[str] = Field(None, description="List of natural talents and skills")
 
+class GoalsAndInterestsResponse(BaseModel):
+    """Response from goals and interests update"""
+    goals_and_interests: Dict[str, Any] = Field(..., description="Updated goals and interests data")
+
+class PrioritiesUpdateRequest(BaseModel):
+    """Request to update priorities"""
+    priorities: List[str] = Field(..., description="List of career priorities and values")
 
 class ProfileResponse(BaseModel):
     """Response with the current profile state"""
@@ -82,6 +67,9 @@ class ProfileResponse(BaseModel):
     goals_and_interests: Dict[str, Any] = Field({}, description="Goals and interests data")
     has_web_search_results: bool = Field(..., description="Whether web search results exist")
 
+class NameUpdateRequest(BaseModel):
+    """Request to update student name"""
+    name: str = Field(..., description="Student's full name")
 
 # ============================================================
 # FastAPI Router
@@ -89,48 +77,40 @@ class ProfileResponse(BaseModel):
 router = APIRouter(prefix="/api", tags=["preferences"])
 
 
-@router.post("/mbti", response_model=ProfileResponse)
-async def update_mbti(request: MbtiUpdateRequest) -> Dict[str, Any]:
+@router.post("/mbti", response_model=MBTIUpdateResponse)
+async def update_mbti_scores(request: MBTIUpdateRequest) -> Dict[str, Any]:
     """
     API endpoint to update MBTI scores
+    Also stores the scores in the state store
     """
     try:
-        # Validate MBTI scores (ensure they're within range -10 to +10)
-        scores = request.scores
-        # in update_mbti():
-        for key, value in scores.dict().items():
-            if value < 0 or value > 100:
-                raise HTTPException(
-                    status_code=400,
-                    detail=f"MBTI score {key} must be between 0 and 100"
-                )
-
+        # Get the state store instance
+        store = StateStore.get_instance()
+        
+        # Log which agent is accessing the state store
+        print(f"Preference agent accessing StateStore instance: {store.get_instance_id()}")
+        
+        # Calculate MBTI type
+        mbti_type = ""
+        mbti_type += "E" if request.scores.ei >= 50 else "I"
+        mbti_type += "N" if request.scores.sn >= 50 else "S"
+        mbti_type += "F" if request.scores.tf >= 50 else "T"
+        mbti_type += "P" if request.scores.jp >= 50 else "J"
         
         # Update the state store
-        store = StateStore.get_instance()
-        store.update_mbti(
-            ei=scores.ei,
-            sn=scores.sn,
-            tf=scores.tf,
-            jp=scores.jp
-        )
-        
-        # Return the current profile state
-        return {
-            "name": store.name,
-            "college": store.college,
-            "major": store.major,
-            "grade": store.grade,
-            "gender": store.gender,
-            "mbti_scores": store.mbti_scores,
-            "priorities": store.priorities,
-            "goals_and_interests": getattr(store, "goals_and_interests", {}),
-            "has_web_search_results": bool(store.web_search_results)
+        store.mbti_scores = {
+            "ei": request.scores.ei,
+            "sn": request.scores.sn,
+            "tf": request.scores.tf,
+            "jp": request.scores.jp
         }
         
-    except HTTPException:
-        # Re-raise HTTP exceptions
-        raise
+        # Return the updated MBTI type and scores
+        return {
+            "mbti_type": mbti_type,
+            "scores": request.scores
+        }
+        
     except Exception as e:
         # Handle unexpected errors
         raise HTTPException(status_code=500, detail=f"Error updating MBTI scores: {str(e)}")
@@ -142,17 +122,17 @@ async def update_priorities(request: PrioritiesUpdateRequest) -> Dict[str, Any]:
     API endpoint to update priorities
     """
     try:
-        # Validate the priorities (ensure there are at least 1 and at most 10)
-        if len(request.priorities) < 1:
+        # Validate the priorities (ensure there are at least 3 and at most 7)
+        if len(request.priorities) < 3:
             raise HTTPException(
                 status_code=400,
-                detail="At least one priority must be specified"
+                detail="At least 3 priorities must be specified"
             )
         
-        if len(request.priorities) > 10:
+        if len(request.priorities) > 7:
             raise HTTPException(
                 status_code=400,
-                detail="Too many priorities specified (maximum 10)"
+                detail="Too many priorities specified (maximum 7)"
             )
         
         # Update the state store
@@ -180,42 +160,34 @@ async def update_priorities(request: PrioritiesUpdateRequest) -> Dict[str, Any]:
         raise HTTPException(status_code=500, detail=f"Error updating priorities: {str(e)}")
 
 
-@router.post("/goals-interests", response_model=ProfileResponse)
-async def update_goals_interests(request: GoalsInterestsRequest) -> Dict[str, Any]:
+@router.post("/goals-interests", response_model=GoalsAndInterestsResponse)
+async def update_goals_interests(request: GoalsAndInterestsRequest) -> Dict[str, Any]:
     """
     API endpoint to update goals and interests
+    Also stores the data in the state store
     """
     try:
+        # Get the state store instance
+        store = StateStore.get_instance()
+        
+        # Log which agent is accessing the state store
+        print(f"Preference agent accessing StateStore instance: {store.get_instance_id()}")
+        
         # Prepare the goals and interests data
         goals_data = {
             "knowsGoals": request.knowsGoals,
             "goalType": request.goalType if request.knowsGoals else None,
             "goals": request.goals if request.knowsGoals else None,
-            "interests": request.interests or "",
-            "skills": request.skills or ""
+            "interests": request.interests,
+            "skills": request.skills
         }
         
         # Update the state store
-        store = StateStore.get_instance()
+        store.goals_and_interests = goals_data
         
-        # Check if the state store has the method
-        if hasattr(store, "update_goals_and_interests"):
-            store.update_goals_and_interests(goals_data)
-        else:
-            # Fallback if method doesn't exist
-            store.goals_and_interests = goals_data
-        
-        # Return the current profile state
+        # Return the updated data
         return {
-            "name": store.name,
-            "college": store.college,
-            "major": store.major,
-            "grade": store.grade,
-            "gender": store.gender,
-            "mbti_scores": store.mbti_scores,
-            "priorities": store.priorities,
-            "goals_and_interests": getattr(store, "goals_and_interests", {}),
-            "has_web_search_results": bool(store.web_search_results)
+            "goals_and_interests": goals_data
         }
         
     except Exception as e:
@@ -247,6 +219,47 @@ async def get_profile() -> Dict[str, Any]:
         # Handle unexpected errors
         raise HTTPException(status_code=500, detail=f"Error retrieving profile: {str(e)}")
 
+
+@router.post("/update-name", response_model=ProfileResponse)
+async def update_name(request: NameUpdateRequest) -> Dict[str, Any]:
+    """
+    API endpoint to update student name
+    """
+    try:
+        # Update the state store
+        store = StateStore.get_instance()
+        
+        # Get current state to preserve other fields
+        current_state = store.get_full_profile()
+        basic_info = current_state['basic_info']
+        
+        # Update only the name while preserving other fields
+        store.update_basic_info(
+            name=request.name,
+            college=basic_info['college'],
+            major=basic_info['major'],
+            grade=basic_info['grade'],
+            gender=basic_info['gender']
+        )
+        
+        # Return the current profile state
+        return {
+            "name": store.name,
+            "college": store.college,
+            "major": store.major,
+            "grade": store.grade,
+            "gender": store.gender,
+            "mbti_scores": store.mbti_scores,
+            "priorities": store.priorities,
+            "goals_and_interests": getattr(store, "goals_and_interests", {}),
+            "has_web_search_results": bool(store.web_search_results)
+        }
+        
+    except Exception as e:
+        # Handle unexpected errors
+        raise HTTPException(status_code=500, detail=f"Error updating name: {str(e)}")
+
+
 def interpret_mbti(scores: Dict[str, int]) -> Dict[str, str]:
     return {
         "ei": "Extraverted" if scores["ei"] >= 50 else "Introverted",
@@ -254,6 +267,40 @@ def interpret_mbti(scores: Dict[str, int]) -> Dict[str, str]:
         "tf": "Thinking"    if scores["tf"] >= 50 else "Feeling",
         "jp": "Perceiving"  if scores["jp"] >= 50 else "Judging",
     }
+
+
+@router.get("/debug/state")
+async def debug_state():
+    """
+    Debug endpoint to check the current state
+    """
+    try:
+        # Get the state store instance
+        store = StateStore.get_instance()
+        
+        # Log which agent is accessing the state store
+        print(f"Preference agent accessing StateStore instance: {store.get_instance_id()}")
+        
+        # Return the current state
+        return {
+            "instance_id": store.get_instance_id(),
+            "name": store.name,
+            "full_profile": {
+                "basic_info": {
+                    "name": store.name,
+                    "college": store.college,
+                    "major": store.major,
+                    "grade": store.grade,
+                    "gender": store.gender
+                },
+                "mbti_scores": store.mbti_scores,
+                "priorities": store.priorities,
+                "goals_and_interests": getattr(store, "goals_and_interests", {}),
+                "web_search_results": store.web_search_results
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error retrieving state: {str(e)}")
 
 
 # ============================================================
@@ -275,7 +322,7 @@ async def test_preference_agent():
     )
     
     # Test updating MBTI scores on 0–100 scale
-    test_mbti = MbtiScores(
+    test_mbti = MBTIScores(
         ei=65,   # Extraverted
         sn=40,   # Sensing
         tf=80,   # Thinking
