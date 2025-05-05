@@ -104,7 +104,7 @@ function MBTIStep({ onNext, onBack }) {
         {/* Left side - Sliders */}
         <Stack spacing="xl" style={{ flex: 1 }}>
           <Box>
-            <Text fw={500} mb="xs" color="#2c1810">Extraversion vs. Introversion</Text>
+            
             <Box mb="xs" px={2}>
               <Group position="apart" noWrap>
                 <Text size="sm" color="dimmed" style={{ width: '80px' }}>Introversion</Text>
@@ -130,7 +130,7 @@ function MBTIStep({ onNext, onBack }) {
           </Box>
 
           <Box>
-            <Text fw={500} mb="xs" color="#2c1810">Sensing vs. Intuition</Text>
+            
             <Box mb="xs" px={2}>
               <Group position="apart" noWrap>
                 <Text size="sm" color="dimmed" style={{ width: '80px' }}>Sensing</Text>
@@ -156,7 +156,7 @@ function MBTIStep({ onNext, onBack }) {
           </Box>
 
           <Box>
-            <Text fw={500} mb="xs" color="#2c1810">Thinking vs. Feeling</Text>
+            
             <Box mb="xs" px={2}>
               <Group position="apart" noWrap>
                 <Text size="sm" color="dimmed" style={{ width: '80px' }}>Thinking</Text>
@@ -182,7 +182,7 @@ function MBTIStep({ onNext, onBack }) {
           </Box>
 
           <Box>
-            <Text fw={500} mb="xs" color="#2c1810">Judging vs. Perceiving</Text>
+           
             <Box mb="xs" px={2}>
               <Group position="apart" noWrap>
                 <Text size="sm" color="dimmed" style={{ width: '80px' }}>Judging</Text>

@@ -1,6 +1,7 @@
-import { Select, TextInput, Stack, Title, Button, Group, Text, Box } from '@mantine/core';
+import { Select, TextInput, Stack, Title, Button, Group, Text, Box, Loader } from '@mantine/core';
 import { IconArrowRight, IconArrowLeft } from '@tabler/icons-react';
 import { useState } from 'react';
+import { Paper } from '@mantine/core';
 
 // Updated options to be more conversational
 const YEAR_OPTIONS = [
@@ -62,86 +63,105 @@ function BasicInfoStep({ formData, onChange, onNext, onBack }) {
         </Text>
       </Box>
 
-      <form onSubmit={handleNext} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}>
-        <Stack spacing="xl">            
-          <Select
-            label="What year are you in?"
-            placeholder="Select your current year"
-            required
-            data={YEAR_OPTIONS}
-            value={formData.year}
-            onChange={(value) => onChange('year', value)}
-            size="lg"
-            styles={{
-              input: {
-                height: '56px',
-                fontSize: '1.1rem'
-              },
-              label: {
-                fontSize: '1rem',
-                marginBottom: '0.5rem'
-              }
-            }}
-          />
-          <TextInput
-            label="What are you studying?"
-            placeholder="e.g., Computer Science, Psychology, Business..."
-            required
-            value={formData.major}
-            onChange={(event) => onChange('major', event.currentTarget.value)}
-            size="lg"
-            styles={{
-              input: {
-                height: '56px',
-                fontSize: '1.1rem'
-              },
-              label: {
-                fontSize: '1rem',
-                marginBottom: '0.5rem'
-              }
-            }}
-          />
-          <Box mt="md">
-            <TextInput
-              label="University/College"
-              placeholder="e.g., University of Southern California"
-              value={formData.university || ''}
-              onChange={(e) => onChange('university', e.currentTarget.value)}
+      {isSubmitting ? (
+        <Paper shadow="sm" p="xl" withBorder style={{
+          borderRadius: '16px',
+          background: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(10px)',
+          textAlign: 'center'
+        }}>
+          <Stack spacing="xl" align="center">
+            <Loader size="xl" color="brand" />
+            <Title order={3} color="brand.6">
+              Saving Your Profile
+            </Title>
+            <Text color="dimmed" size="lg">
+              We're analyzing your academic background and searching for relevant career insights...
+            </Text>
+          </Stack>
+        </Paper>
+      ) : (
+        <form onSubmit={handleNext} style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}>
+          <Stack spacing="xl">            
+            <Select
+              label="What year are you in?"
+              placeholder="Select your current year"
+              required
+              data={YEAR_OPTIONS}
+              value={formData.year}
+              onChange={(value) => onChange('year', value)}
               size="lg"
               styles={{
                 input: {
-                  fontSize: '1.1rem',
-                  color: '#2c1810'
+                  height: '56px',
+                  fontSize: '1.1rem'
                 },
                 label: {
                   fontSize: '1rem',
-                  marginBottom: '0.5rem',
-                  color: '#2c1810'
+                  marginBottom: '0.5rem'
                 }
               }}
-              mb="md"
             />
-          </Box>
-          <Group position="apart" mt="xl">
-            <Button 
-              variant="subtle" 
-              onClick={onBack}
-              leftIcon={<IconArrowLeft size={16} />}
+            <TextInput
+              label="What are you studying?"
+              placeholder="e.g., Computer Science, Psychology, Business..."
+              required
+              value={formData.major}
+              onChange={(event) => onChange('major', event.currentTarget.value)}
               size="lg"
-            >
-              Back
-            </Button>
-            <Button 
-              type="submit"
-              rightIcon={<IconArrowRight size={16} />}
-              size="lg"
-              loading={isSubmitting}
-            >
-              Continue
-            </Button>
-          </Group>
-        </Stack>
-      </form>
+              styles={{
+                input: {
+                  height: '56px',
+                  fontSize: '1.1rem'
+                },
+                label: {
+                  fontSize: '1rem',
+                  marginBottom: '0.5rem'
+                }
+              }}
+            />
+            <Box mt="md">
+              <TextInput
+                label="University/College"
+                placeholder="e.g., University of Southern California"
+                value={formData.university || ''}
+                onChange={(e) => onChange('university', e.currentTarget.value)}
+                size="lg"
+                styles={{
+                  input: {
+                    fontSize: '1.1rem',
+                    color: '#2c1810'
+                  },
+                  label: {
+                    fontSize: '1rem',
+                    marginBottom: '0.5rem',
+                    color: '#2c1810'
+                  }
+                }}
+                mb="md"
+              />
+            </Box>
+            <Group position="apart" mt="xl">
+              <Button 
+                variant="subtle" 
+                onClick={onBack}
+                leftIcon={<IconArrowLeft size={16} />}
+                size="lg"
+              >
+                Back
+              </Button>
+              <Button 
+                type="submit"
+                rightIcon={<IconArrowRight size={16} />}
+                size="lg"
+                loading={isSubmitting}
+              >
+                Continue
+              </Button>
+            </Group>
+          </Stack>
+        </form>
+      )}
     </Stack>
   );
 }

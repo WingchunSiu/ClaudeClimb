@@ -29,6 +29,7 @@ import ClaudeFooter from './ClaudeFooter';
 import StepperProgressBar from './StepperProgressBar';
 import JourneyGraph from './JourneyGraph';
 
+
 // PlannerOutput component with modern styling
 const PlannerOutput = ({ results }) => {
   const theme = useMantineTheme();
@@ -128,31 +129,31 @@ function CareerTrajectories({ trajectories, onSelect }) {
             </Group>
             <Text color="dimmed" size="sm" mb="md">Click to generate detailed plan</Text>
 
-            {/* Add reasons as tags with tooltips */}
-            <Stack spacing="xs">
-              {t.reasons && t.reasons.map((reason, index) => (
-                <Tooltip
-                  key={index}
-                  label={reason.explanation}
-                  position="bottom"
-                  multiline
-                  width={300}
-                  withArrow
-                  transition="fade"
-                  transitionDuration={200}
-                >
-                  <Badge
-                    color="blue"
-                    variant="light"
-                    size="sm"
-                    style={{ cursor: 'help' }}
-                    onClick={(e) => e.stopPropagation()} // Prevent card click when clicking badge
-                  >
-                    {reason.strength}
-                  </Badge>
-                </Tooltip>
-              ))}
-            </Stack>
+{/* Add reasons as tags with tooltips */}
+<Stack spacing="xs">
+  {t.reasons && t.reasons.map((reason, index) => (
+    <Tooltip
+      key={index}
+      label={reason.explanation}
+      position="bottom"
+      multiline
+      width={300}
+      withArrow
+      transition="fade"
+      transitionDuration={200}
+    >
+      <Badge
+        color="blue"
+        variant="light"
+        size="sm"
+        style={{ cursor: 'help' }}
+        onClick={(e) => e.stopPropagation()} // Prevent card click when clicking badge
+      >
+        {reason.strength}
+      </Badge>
+    </Tooltip>
+  ))}
+</Stack>
           </Card>
         ))}
       </SimpleGrid>
@@ -165,6 +166,8 @@ function App() {
   const [step, setStep] = useState(1);
   const [animationDirection, setAnimationDirection] = useState('forward');
   const [selectedTrajectory, setSelectedTrajectory] = useState(null);
+  const [isPlanning, setIsPlanning] = useState(false);
+  const [planResults, setPlanResults] = useState(null);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -251,7 +254,7 @@ function App() {
 
       // Store the full response for later use
       setPlannerResults(response.data);
-
+      
       // Update the dummy trajectories with real data
       dummyTrajectories.splice(0, dummyTrajectories.length, ...trajectories);
 
@@ -260,6 +263,30 @@ function App() {
       setError(err.response?.data?.detail || 'Failed to generate career recommendations. Please try again.');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const runPlanningAgent = async (trajectory) => {
+    setIsPlanning(true);
+    setPlanResults(null);
+    try {
+      const response = await axios.post('http://localhost:8000/api/career-plan', {
+        career: trajectory.name,
+        score: trajectory.score,
+        description: trajectory.description,
+        reasons: trajectory.reasons
+      });
+
+      if (!response.data) {
+        throw new Error('Invalid response from planning agent');
+      }
+
+      setPlanResults(response.data);
+    } catch (err) {
+      console.error("Planning Agent Error:", err);
+      setPlanResults({ error: err.response?.data?.detail || 'Failed to generate detailed plan. Please try again.' });
+    } finally {
+      setIsPlanning(false);
     }
   };
 
@@ -330,14 +357,16 @@ function App() {
   const showFooter = step === 1;
 
   // Handler for selecting a career trajectory
-  const handleTrajectorySelect = (trajectory) => {
+  const handleTrajectorySelect = async (trajectory) => {
     setSelectedTrajectory(trajectory);
-    setStep(8); // Move to the new Journey Details step
+    setStep(8); // Move to the Journey Details step
+    await runPlanningAgent(trajectory);
   };
 
   // Handler for going back from Journey Details
   const handleBackToTrajectories = () => {
     setSelectedTrajectory(null);
+    setPlanResults(null);
     setStep(7);
   };
 
@@ -515,13 +544,37 @@ function App() {
                 >
                   Back
                 </Button>
-                <JourneyGraph journey={plannerResults} />
+                {isPlanning ? (
+                  <Paper shadow="sm" p="xl" withBorder style={{
+                    borderRadius: '16px',
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    backdropFilter: 'blur(10px)',
+                    textAlign: 'center'
+                  }}>
+                    <Stack spacing="xl" align="center">
+                      <Loader size="xl" color="brand" />
+                      <Title order={3} color="brand.6">
+                        Creating Your Personalized Journey Plan
+                      </Title>
+                      <Text color="dimmed" size="lg">
+                        We're designing a detailed roadmap for your {selectedTrajectory.name} career path...
+                      </Text>
+                    </Stack>
+                  </Paper>
+                ) : planResults && !planResults.error ? (
+                  <JourneyGraph journey={planResults} />
+                ) : planResults && planResults.error ? (
+                  <Alert icon={<IconAlertCircle size={16} />} title="Error" color="red">
+                    {planResults.error}
+                  </Alert>
+                ) : null}
               </>
             )}
           </div>
         </div>
       </div>
 
+      {/* Only render the footer if no name has been entered */}
       {showFooter && <ClaudeFooter />}
     </div>
   );
